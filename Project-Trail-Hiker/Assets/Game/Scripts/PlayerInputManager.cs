@@ -4,87 +4,47 @@ using UnityEngine;
 
 public class PlayerInputManager : MonoBehaviour
 {
-    public bool aWasPressed { private set; get; } = false;
-    public bool dWasPressed { private set; get; } = false;
-    public float aDownTime { private set; get; } = 0.00f;
-    public float dDownTime { private set; get; } = 0.00f;
-    public float walkInputAverageTime { private set; get; } = 0.00f;
-    public bool wantsToMove { private set; get; }
+    public bool aWasPressed = false;
+    public bool dWasPressed = false;
 
-    public void Update()
+    public float aTime { private set; get; } = 0f;
+    public float dTime { private set; get; } = 0f;
+    
+    void Update()
     {
-        Debug.Log("walkInputAverageTime = " + walkInputAverageTime);
-
-        if(aWasPressed && dWasPressed)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            walkInputAverageTime = Mathf.Abs(aDownTime - dDownTime);
-        }
-        else if (aWasPressed)
-        {
-            walkInputAverageTime = Time.time - aDownTime;
-        }
-        else if (dWasPressed)
-        {
-            walkInputAverageTime = Time.time - dDownTime;
-        }
-
-        if(walkInputAverageTime > 1f)
-        {
-            wantsToMove = false;
-            walkInputAverageTime = 0f;
-        }
-        else
-        {
-            wantsToMove = true;
+            if (!aWasPressed)
+            {
+                aWasPressed = true;
+                aTime = Time.time;
+            }
+            else
+            {
+                aWasPressed = false;
+                //TODO: cair = true
+            }
         }
 
-        ProcessMovement();
-    }
-
-    public void ProcessMovement()
-    {
-        if (IsAButtonDown())
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            aDownTime = Time.time;
-            aWasPressed = true;
-            wantsToMove = true;
-        }
-
-        if (IsDButtonDown())
-        {
-            dDownTime = Time.time;
-            dWasPressed = true;
-            wantsToMove = true;
-        }
-
-        if (aWasPressed && dWasPressed)
-        {
-            Debug.Log("I'm Here!");
-            aWasPressed = false;
-            dWasPressed = false;
-            wantsToMove = false;
+            if (!dWasPressed)
+            {
+                dWasPressed = true;
+                dTime = Time.time;
+            }
+            else
+            {
+                dWasPressed = false;
+                //TODO: cair = true
+            }
         }
     }
 
-    public bool IsAButtonDown()
+    public bool IsJumpButtonHold()
     {
-        return Input.GetKeyDown(KeyCode.A);
+        return Input.GetKey(KeyCode.W);
     }
-
-    public bool IsDButtonDown()
-    {
-        return Input.GetKeyDown(KeyCode.D);
-    }
-
-    //public bool IsAButtonHold()
-    //{
-    //    return Input.GetKey(KeyCode.A);
-    //}
-
-    //public bool IsDButtonHold()
-    //{
-     //   return Input.GetKey(KeyCode.D);
-    //}
 
     public bool IsSwipeDirectionButtonDown()
     {
