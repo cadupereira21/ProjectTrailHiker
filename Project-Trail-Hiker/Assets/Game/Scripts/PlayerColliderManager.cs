@@ -8,10 +8,21 @@ public struct CollidersTag{
 
 public class PlayerColliderManager : MonoBehaviour
 {
-    public bool isGrounded { private set; get; }
+    public bool isGrounded;
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-        isGrounded = collision.gameObject.CompareTag(CollidersTag.Ground) ? true : false;
+        if (collision.collider.CompareTag(CollidersTag.Ground))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag(CollidersTag.Ground))
+        {
+            isGrounded = false;
+        }
     }
 }
