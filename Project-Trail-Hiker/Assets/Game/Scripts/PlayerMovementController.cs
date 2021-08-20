@@ -12,7 +12,7 @@ public class PlayerMovementController : MonoBehaviour
     BoxCollider2D collider;
     // Collider Normal offset = 0 e 0.95 size = 0.5 e 1.9
 
-    public float maxSpeed = 10f;
+    private float maxSpeed = 10f;
     Vector2 targetVelocity;
     int playerDirection = 1;
     public float inputAverageTime = 0f;
@@ -22,21 +22,27 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] float accelerationRate;
     [Range(1f, 5f)]
     [SerializeField] float decelerationForce = 2f;
+    [SerializeField] float fallSpeedDeceleration;
     [Range(0.1f, 1f)]
     [Tooltip("Seta o time out entre os inputs necessário para o personagem começar a frear")]
-    [SerializeField] float movementTimeOut = .9f;
+    [SerializeField] float movementTimeOut = 1f;
+    [SerializeField] float velocidadeSuperLenta = 0.5f;
+    [SerializeField] float velocidadeLenta = 0.35f;
+    [SerializeField] float velocidadeMédia = 0.22f;
+    [SerializeField] float velocidadeAlta = 0.12f;
+    [SerializeField] float velocidadeSuperAlta = 0.03f;
 
-    private Vector2 oldGroundPosition;
-    public bool canJump = true;
-    public bool isJumping = false;
+
     [Header("Pulo")]
+    [SerializeField] bool canJump = true;
+    [SerializeField] bool isJumping = false;
     [Range(5f, 20f)]
     [SerializeField] float jumpForce = 5f;
     [Range(5f, 20f)]
     [SerializeField] float gravityForce = 5f;
     [SerializeField] float jumpAbortDecceleration = 4f;
 
-    public bool isCrouched;
+    bool isCrouched;
     Vector2 normalColliderOffset;
     Vector2 normalColliderSize;
     [Header("Agachar")]
@@ -62,6 +68,12 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Update()
     {
+        //Cair
+        if (inputManager.fall)
+        {
+            Fall();
+        }
+
         // Flip
         if (inputManager.IsSwipeDirectionButtonDown())
         {
@@ -117,7 +129,7 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         // Move e desacelera o personagem conforme a média de tempo dos inputs
-        if (Time.time - movementTimer < movementTimeOut)
+        if ((Time.time - movementTimer < movementTimeOut) && !inputManager.fall)
         {
             // Acelerando
             targetVelocity = new Vector2(maxSpeed * playerDirection, playerRb.velocity.y);
@@ -132,11 +144,12 @@ public class PlayerMovementController : MonoBehaviour
             if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0)
             {
                 playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+                inputManager.fall = false;
             }
             else if(!isJumping)
             {
                 // Desacelerando
-                targetVelocity = new Vector2( decelerationForce*maxSpeed * -playerDirection, playerRb.velocity.y);
+                targetVelocity = new Vector2(decelerationForce * maxSpeed * -playerDirection, playerRb.velocity.y);
                 playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
             }
         }
@@ -146,55 +159,34 @@ public class PlayerMovementController : MonoBehaviour
     
     private void NormalizeInputAverageTime()
     {
-        if (inputAverageTime > 1f)
-        {
-            maxSpeed = 1f;
-            inputAverageTime = 1f;
-        }
-        else if (inputAverageTime > .9f)
+        if (inputAverageTime > velocidadeSuperLenta) // Super lento
         {
             maxSpeed = 2f;
-            inputAverageTime = 0.9f;
+            inputAverageTime = velocidadeSuperLenta;
         }
-        else if (inputAverageTime > .8f)
-        {
-            maxSpeed = 2f;
-            inputAverageTime = 0.8f;
-        }
-        else if (inputAverageTime > .7f)
-        {
-            maxSpeed = 3f;
-            inputAverageTime = 0.7f;
-        }
-        else if (inputAverageTime > .6f)
-        {
-            maxSpeed = 3f;
-            inputAverageTime = 0.6f;
-        }
-        else if (inputAverageTime > .5f)
+        else if (inputAverageTime > velocidadeLenta) // lento
         {
             maxSpeed = 4f;
-            inputAverageTime = 0.5f;
+            inputAverageTime = velocidadeLenta;
         }
-        else if (inputAverageTime > .4f)
-        {
-            maxSpeed = 4f;
-            inputAverageTime = 0.4f;
-        }
-        else if (inputAverageTime > .3f)
+        else if (inputAverageTime > velocidadeMédia) // Médio
         {
             maxSpeed = 7f;
-            inputAverageTime = 0.3f;
+            inputAverageTime = velocidadeMédia;
         }
-        else if (inputAverageTime > .2f)
+        else if (inputAverageTime > velocidadeAlta) // Rápido
         {
             maxSpeed = 10f;
-            inputAverageTime = 0.2f;
+            inputAverageTime = velocidadeAlta;
         }
-        else if (inputAverageTime > .0f)
+        else if (inputAverageTime > velocidadeSuperAlta) // Super Rápido
         {
             maxSpeed = 15f;
-            inputAverageTime = 0.1f;
+            inputAverageTime = velocidadeSuperAlta;
+        }
+        else if(inputAverageTime > 0f)
+        {
+            Fall();
         }
     }
 
@@ -240,6 +232,13 @@ public class PlayerMovementController : MonoBehaviour
         collider.size = normalColliderSize;
         isCrouched = false;
         canJump = true;
+    }
+
+    public void Fall()
+    {
+        Debug.Log("Caiu");
+        targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -playerDirection, playerRb.velocity.y);
+        playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
     }
    
 }

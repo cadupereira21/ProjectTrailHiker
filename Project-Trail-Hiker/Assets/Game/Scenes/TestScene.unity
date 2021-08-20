@@ -1230,6 +1230,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aWasPressed: 0
   dWasPressed: 0
+  aTime: 0
+  dTime: 0
+  fall: 0
 --- !u!114 &389306574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,17 +1305,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aeeb2ed4cb5be4b833b65273c34083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 10
   inputAverageTime: 0
   accelerationRate: 0.521
   decelerationForce: 3.56
+  fallSpeedDeceleration: 0.6
   movementTimeOut: 1
+  velocidadeSuperLenta: 0.5
+  velocidadeLenta: 0.35
+  "velocidadeM\xE9dia": 0.22
+  velocidadeAlta: 0.12
+  velocidadeSuperAlta: 0.03
   canJump: 1
   isJumping: 0
   jumpForce: 6.5
   gravityForce: 5
   jumpAbortDecceleration: 120
-  isCrouched: 0
   crouchResizePercentage: 0.5
 --- !u!1 &407165181
 GameObject:

@@ -7,8 +7,10 @@ public class PlayerInputManager : MonoBehaviour
     public bool aWasPressed = false;
     public bool dWasPressed = false;
 
-    public float aTime { private set; get; } = 0f;
-    public float dTime { private set; get; } = 0f;
+    public float aTime = 0f;
+    public float dTime = 0f;
+
+    public bool fall = false;
     
     public void Update()
     {
@@ -22,7 +24,7 @@ public class PlayerInputManager : MonoBehaviour
             else
             {
                 aWasPressed = false;
-                //TODO: cair = true
+                fall = true;
             }
         }
 
@@ -36,7 +38,7 @@ public class PlayerInputManager : MonoBehaviour
             else
             {
                 dWasPressed = false;
-                //TODO: cair = true
+                fall = true;
             }
         }
     }
