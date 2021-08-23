@@ -9,3 +9,7 @@ Today I worked on all the movement features of our game. They are all too raw, b
 ## DAY 3 - 20/08/2021
 
 I worked to improve the movement mechanincs, so now we can't jump and crouch as we please, you can control your jump height, and the speed is divided in 5 categories, from super slow to super fast. I also added the fall feature, even tough we don't have animation. I want to implement my virtual camera next;
+
+## DAY 4 - 23/08/2021
+
+Today I was able to implement some changes on my Collision detection, a tip given to me by a mentor. It fixed my level generator bug, that was breaking the movement system. With the generator fixed, I implemented some improvements in it, to get close on how we want it to create the levels

@@ -2273,6 +2273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298730067}
+  - component: {fileID: 1298730068}
   - component: {fileID: 1298730066}
   m_Layer: 0
   m_Name: Generator
@@ -2293,9 +2294,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402264aebf21dca4f99e08dcb5cf1a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 4196761355059622257, guid: 5c5cd9474231f3a4aa666b288b29cba5, type: 3}
-  numberOfObjects: 100
+  straightGround:
+  - {fileID: 1564865754977858912, guid: 5babac556f393d24bb40cc7953d2f2ae, type: 3}
+  slopeGround:
+  - {fileID: 4822285310343731829, guid: b3f1cdb317ca31f439dbac3fb546721c, type: 3}
+  initialLayerOrder: 300
 --- !u!4 &1298730067
 Transform:
   m_ObjectHideFlags: 0
@@ -2310,6 +2313,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1298730068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298730065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b5b02e3675f2d4c829e6cf4a82724f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1384385395
 GameObject:
   m_ObjectHideFlags: 0

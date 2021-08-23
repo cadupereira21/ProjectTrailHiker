@@ -10,7 +10,7 @@ public struct LevelNames
 
 public class LevelCreator : MonoBehaviour
 {
-    [SerializeField] Instantiator instantiator;
+    Instantiator instantiator;
     private string currentLevel;
 
     private void Awake()
@@ -35,6 +35,8 @@ public class LevelCreator : MonoBehaviour
 
     private void CreateTestLevel()
     {
+        instantiator.InstantiateStraightGround(5);
+        instantiator.InstantiateSlope(5);
         instantiator.InstantiateStraightGround(5);
     }
 }
