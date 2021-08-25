@@ -13,3 +13,7 @@ I worked to improve the movement mechanincs, so now we can't jump and crouch as 
 ## DAY 4 - 23/08/2021
 
 Today I was able to implement some changes on my Collision detection, a tip given to me by a mentor. It fixed my level generator bug, that was breaking the movement system. With the generator fixed, I implemented some improvements in it, to get close on how we want it to create the levels
+
+## Day 5 - 25/08/2021
+
+I improved the Level Generator + Prototyped something about our scores and added some UI, so I can generate a build tomorrow and send to some people for testing purposes.
