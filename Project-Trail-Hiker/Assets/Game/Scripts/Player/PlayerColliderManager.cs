@@ -17,6 +17,7 @@ public class PlayerColliderManager : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsGround);
     }
 
+    //Anteriormente tava assim, mas tava quebrando a movimentação quando colocava os assets do gerador kkkkk
     /*public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag(CollidersTag.Ground))

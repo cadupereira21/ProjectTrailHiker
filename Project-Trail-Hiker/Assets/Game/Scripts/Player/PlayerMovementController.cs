@@ -9,14 +9,18 @@ public class PlayerMovementController : MonoBehaviour
     PlayerInputManager inputManager;
     PlayerColliderManager colliderManager;
     BoxCollider2D collider;
+    GameManager gameManager;
     // Collider Normal offset = 0 e 0.95 size = 0.5 e 1.9
 
-    private float maxSpeed = 10f;
     Vector2 targetVelocity;
-    public int playerDirection = 1;
-    public float inputAverageTime = 0f;
-    float movementTimer = -1f;
+
     public Transform cameraTarget;
+
+    public int playerDirection = 1;
+
+    public float inputAverageTime = 0f;
+    private float maxSpeed = 10f;
+    float movementTimer = -1f;
 
     [Header("Movimentação")]
     [Range(0f, 1f)]
@@ -62,6 +66,7 @@ public class PlayerMovementController : MonoBehaviour
         inputManager = GetComponent<PlayerInputManager>();
         colliderManager = GetComponentInChildren<PlayerColliderManager>();
         collider = GetComponent<BoxCollider2D>();
+        gameManager = FindObjectOfType<GameManager>();
 
         normalColliderOffset = collider.offset;
         normalColliderSize = collider.size;
@@ -71,11 +76,17 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Update()
     {
+        if (!gameManager.IsGameRunning)
+        {
+            return;
+        }
+
         //Cair
         if (inputManager.fall)
         {
-            Fall();
+           Fall();
         }
+
 
         // Flip
         if (inputManager.IsSwipeDirectionButtonDown())
@@ -126,6 +137,11 @@ public class PlayerMovementController : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (!gameManager.IsGameRunning)
+        {
+            return;
+        }
+
         cameraTarget.localPosition = new Vector2(2 + playerRb.velocity.x * speedInfluece * Time.fixedDeltaTime * playerDirection, cameraTarget.localPosition.y);
 
         if (isJumping)
@@ -245,9 +261,7 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Fall()
     {
-        Debug.Log("Caiu");
         targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -playerDirection, playerRb.velocity.y);
         playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
     }
-   
 }
