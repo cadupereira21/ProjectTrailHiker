@@ -7,12 +7,12 @@ public class ScoreManager : MonoBehaviour
     // Primeira fase: 3 Relógios - 2m30 | 2 Relógios - 3m30 | 1 Relógio - 5m | 3 Estrelas - cair 2 vezes | 2 Estrelas - cair 5 vezes | 1 Estrela - cair 10 vezes
     public Clock clock;
 
-    int clockNumber = 3;
-    int starNumber = 3;
+    public int clockNumber { private set; get; } = 3;
+    public int starNumber { private set; get; } = 3;
     public int fallNumber = 0;
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if(clock.Minutes < 2 || clock.Seconds < 30.0f) { clockNumber = 3; } 
         else if(clock.Minutes < 3 || clock.Seconds < 30.0f) { clockNumber = 2; }

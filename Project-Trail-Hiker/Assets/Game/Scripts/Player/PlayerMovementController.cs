@@ -10,12 +10,11 @@ public class PlayerMovementController : MonoBehaviour
     PlayerColliderManager colliderManager;
     BoxCollider2D collider;
     GameManager gameManager;
+    ScoreManager scoreManager;
 
     // Collider Normal offset = 0 e 0.95 size = 0.5 e 1.9
 
     Vector2 targetVelocity;
-
-    public ScoreManager scoreManager;
 
     public Transform cameraTarget;
 
@@ -72,6 +71,7 @@ public class PlayerMovementController : MonoBehaviour
         colliderManager = GetComponentInChildren<PlayerColliderManager>();
         collider = GetComponent<BoxCollider2D>();
         gameManager = FindObjectOfType<GameManager>();
+        scoreManager = FindObjectOfType<ScoreManager>();
 
         normalColliderOffset = collider.offset;
         normalColliderSize = collider.size;

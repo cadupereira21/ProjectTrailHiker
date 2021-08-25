@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
+    GameManager gameManager;
+
     [SerializeField] int minutes = 0;
     [SerializeField] float seconds = 0;
     [SerializeField] private float secondsLimit = 60f;
@@ -14,11 +16,21 @@ public class Clock : MonoBehaviour
     //public Text minutesLabel;
     //public Text secondsLabel;
 
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         //secondsLabel.text = seconds.ToString("00");
         //minutesLabel.text = minutes.ToString("00");
+        if (!gameManager.IsGameRunning)
+        {
+            return;
+        }
+
         seconds += Time.deltaTime;
 
         if (seconds > secondsLimit)

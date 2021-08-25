@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public Canvas pauseUI;
+    public Canvas gameOverUI;
+
+    PlayerCheckpointDetection playerCheckpointDetection;
 
     private float levelSpeed;
     [SerializeField] bool isGameRunning;
@@ -14,13 +15,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        isGameRunning = true;
+        isGameRunning = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        GameStart();
+        playerCheckpointDetection = FindObjectOfType<PlayerCheckpointDetection>();
     }
 
     // Update is called once per frame
@@ -37,6 +39,11 @@ public class GameManager : MonoBehaviour
             isGameRunning = false;
             pauseUI.gameObject.SetActive(true);
         }
+
+        if (playerCheckpointDetection.isGameOver)
+        {
+            GameOver();
+        }
     }
 
     public void GameStart()
@@ -48,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Debug.Log("GameOver");
         isGameRunning = false;
+        gameOverUI.gameObject.SetActive(true);
     }
 }
