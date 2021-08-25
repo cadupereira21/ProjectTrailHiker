@@ -10,9 +10,12 @@ public class PlayerMovementController : MonoBehaviour
     PlayerColliderManager colliderManager;
     BoxCollider2D collider;
     GameManager gameManager;
+
     // Collider Normal offset = 0 e 0.95 size = 0.5 e 1.9
 
     Vector2 targetVelocity;
+
+    public ScoreManager scoreManager;
 
     public Transform cameraTarget;
 
@@ -21,6 +24,8 @@ public class PlayerMovementController : MonoBehaviour
     public float inputAverageTime = 0f;
     private float maxSpeed = 10f;
     float movementTimer = -1f;
+
+    public bool isFalling;
 
     [Header("Movimentação")]
     [Range(0f, 1f)]
@@ -76,6 +81,12 @@ public class PlayerMovementController : MonoBehaviour
 
     public void Update()
     {
+        // Flip
+        if (inputManager.IsSwipeDirectionButtonDown())
+        {
+            FlipDirection();
+        }
+
         if (!gameManager.IsGameRunning)
         {
             return;
@@ -84,14 +95,10 @@ public class PlayerMovementController : MonoBehaviour
         //Cair
         if (inputManager.fall)
         {
-           Fall();
-        }
-
-
-        // Flip
-        if (inputManager.IsSwipeDirectionButtonDown())
-        {
-            FlipDirection();
+            Debug.Log("Cai");
+            scoreManager.fallNumber += 1;
+            StartCoroutine(Fall());
+            inputManager.fall = false;
         }
 
         // Pulo
@@ -149,8 +156,13 @@ public class PlayerMovementController : MonoBehaviour
             ApplyGravity();
         }
 
+        if (isFalling)
+        {
+            return;
+        }
+
         // Move e desacelera o personagem conforme a média de tempo dos inputs
-        if ((Time.time - movementTimer <= movementTimeOut) && !inputManager.fall)
+        if ((Time.time - movementTimer <= movementTimeOut) && !isFalling)
         {
             // Acelerando
             targetVelocity = new Vector2(maxSpeed * playerDirection, playerRb.velocity.y);
@@ -162,10 +174,10 @@ public class PlayerMovementController : MonoBehaviour
         }
         else
         {
-            if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0)
+            if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0*playerDirection)
             {
                 playerRb.velocity = new Vector2(0, playerRb.velocity.y);
-                inputManager.fall = false;
+                //inputManager.fall = false;
                 inputManager.aTime = 0f;
                 inputManager.dTime = 0f;
             }
@@ -209,7 +221,7 @@ public class PlayerMovementController : MonoBehaviour
         }
         else if(inputAverageTime > 0f)
         {
-            Fall();
+            StartCoroutine(Fall());
         }
     }
 
@@ -259,9 +271,26 @@ public class PlayerMovementController : MonoBehaviour
         canJump = true;
     }
 
-    public void Fall()
+    /*public void Fall()
     {
         targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -playerDirection, playerRb.velocity.y);
         playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+    }*/
+
+    private IEnumerator Fall()
+    {
+        isFalling = true;
+        while(playerRb.velocity != Vector2.zero && playerRb.velocity.x > 0*playerDirection)
+        {
+            targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -playerDirection, playerRb.velocity.y);
+            playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+            yield return null;
+        }
+        isFalling = false;
+
+        inputManager.aWasPressed = false;
+        inputManager.dWasPressed = false;
+
+        StopCoroutine(Fall());
     }
 }

@@ -1286,9 +1286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aeeb2ed4cb5be4b833b65273c34083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1576502913}
+  cameraTarget: {fileID: 1780684204}
   playerDirection: 1
   inputAverageTime: 0
-  cameraTarget: {fileID: 1780684204}
+  isFalling: 0
   accelerationRate: 0.521
   decelerationForce: 2
   fallSpeedDeceleration: 0.6
@@ -3147,6 +3149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clock: {fileID: 1733629437}
+  clockNumber: 3
+  starNumber: 3
+  fallNumber: 0
 --- !u!1 &1656884978
 GameObject:
   m_ObjectHideFlags: 0

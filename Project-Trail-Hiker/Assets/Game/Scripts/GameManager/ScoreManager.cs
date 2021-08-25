@@ -7,11 +7,9 @@ public class ScoreManager : MonoBehaviour
     // Primeira fase: 3 Relógios - 2m30 | 2 Relógios - 3m30 | 1 Relógio - 5m | 3 Estrelas - cair 2 vezes | 2 Estrelas - cair 5 vezes | 1 Estrela - cair 10 vezes
     public Clock clock;
 
-    private int clockNumber = 3;
-    private int starNumber = 3;
-    private int fallNumber = 0;
-
-    public int FallNumber { get { return fallNumber; } set { fallNumber = default; } }
+    int clockNumber = 3;
+    int starNumber = 3;
+    public int fallNumber = 0;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +23,5 @@ public class ScoreManager : MonoBehaviour
         else if (fallNumber <= 5) { starNumber = 2; }
         else if(fallNumber <= 10) { starNumber = 1;  }  
         else { starNumber = 0; }
-
-        Debug.Log("Numero de Relógios: " + clockNumber + "\n" + "Numero de Estrelas: " + starNumber);
     }
 }
