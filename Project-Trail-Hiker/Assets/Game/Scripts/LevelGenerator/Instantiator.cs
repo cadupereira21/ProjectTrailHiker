@@ -25,22 +25,34 @@ public class Instantiator : MonoBehaviour
         InstantiateObject(straightGround[0], objSpriteRenderer, newPosition, numberOfTimes);
     }
 
+
     public void InstantiateSlopeUpward(int numberOfTimes)
     {
-        //float objColliderWidth = slopeGround[0].GetComponent<BoxCollider2D>().size.x;
+        float objColliderWidth = slopeGroundUpward[0].GetComponent<BoxCollider2D>().size.x;
         SpriteRenderer objSpriteRenderer = slopeGroundUpward[0].GetComponentInChildren<SpriteRenderer>();
 
-        Vector2 newPosition = new Vector2(7.877f,1.389f);
+        float objAngle = Mathf.Pow(slopeGroundUpward[0].transform.eulerAngles.z, 2)/(slopeGroundUpward[0].transform.eulerAngles.z * 180 / Mathf.PI);
+
+        float distanceX = Mathf.Cos(objAngle) * objColliderWidth;
+        float distanceY = Mathf.Sin(objAngle) * objColliderWidth;
+
+        Vector2 newPosition = new Vector2(distanceX,distanceY);
 
         InstantiateObject(slopeGroundUpward[0], objSpriteRenderer, newPosition, numberOfTimes);
     }
 
     public void InstantiateSlopeDownward(int numberOfTimes)
     {
-        //float objColliderWidth = slopeGround[0].GetComponent<BoxCollider2D>().size.x;
+        float objColliderWidth = slopeGroundDownward[0].GetComponent<BoxCollider2D>().size.x;
         SpriteRenderer objSpriteRenderer = slopeGroundDownward[0].GetComponentInChildren<SpriteRenderer>();
 
-        Vector2 newPosition = new Vector2(7.877f, -1.389f);
+        float objAngle = Mathf.Pow(slopeGroundDownward[0].transform.eulerAngles.z, 2) / (slopeGroundDownward[0].transform.eulerAngles.z * 180 / Mathf.PI);
+
+
+        float distanceX = Mathf.Cos(objAngle) * objColliderWidth;
+        float distanceY = Mathf.Sin(objAngle) * objColliderWidth;
+
+        Vector2 newPosition = new Vector2(distanceX, distanceY);
 
         InstantiateObject(slopeGroundDownward[0], objSpriteRenderer, newPosition, numberOfTimes);
     }
