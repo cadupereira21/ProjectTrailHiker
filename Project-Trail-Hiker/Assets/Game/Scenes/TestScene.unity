@@ -3546,8 +3546,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820559910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.56, y: 1.8, z: 0}
+  m_LocalScale: {x: 0.31764, y: 0.31764, z: 0.31764}
   m_Children: []
   m_Father: {fileID: 389306572}
   m_RootOrder: 3
@@ -5294,13 +5294,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402264aebf21dca4f99e08dcb5cf1a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialLayerOrder: 300
+  ObstacleGenerationPercentage: 40
+  initialLayerOrder: 200
   straightGround:
   - {fileID: 1564865754977858912, guid: 5babac556f393d24bb40cc7953d2f2ae, type: 3}
   slopeGroundUpward:
   - {fileID: 4822285310343731829, guid: b3f1cdb317ca31f439dbac3fb546721c, type: 3}
   slopeGroundDownward:
   - {fileID: 2536413948189046001, guid: db66928b1d3b5ad439c58c67baedde7a, type: 3}
+  groundObstacle:
+  - {fileID: 940934564372000633, guid: 35ebdd5c800ecc144bd55bbe7fc4f3a2, type: 3}
 --- !u!4 &1298730067
 Transform:
   m_ObjectHideFlags: 0

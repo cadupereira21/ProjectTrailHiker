@@ -36,28 +36,28 @@ public class LevelCreator : MonoBehaviour
     private void CreateTestLevel()
     {
         instantiator.InstantiateStraightGround(5);
-        instantiator.InstantiateSlopeUpward(5);
+        instantiator.InstantiateSlope(5, true);
         instantiator.InstantiateStraightGround(5);
-        instantiator.InstantiateSlopeDownward(5);
+        instantiator.InstantiateSlope(5, false);
         instantiator.InstantiateStraightGround(10);
-        instantiator.InstantiateSlopeUpward(5);
+        instantiator.InstantiateSlope(5, true);
         instantiator.InstantiateStraightGround(1);
-        instantiator.InstantiateSlopeUpward(6);
-        instantiator.InstantiateSlopeDownward(3);
+        instantiator.InstantiateSlope(6, true);
+        instantiator.InstantiateSlope(3, false);
         instantiator.InstantiateStraightGround(10);
-        instantiator.InstantiateSlopeDownward(2);
+        instantiator.InstantiateSlope(2, false);
         instantiator.InstantiateStraightGround(1);
-        instantiator.InstantiateSlopeUpward(1);
+        instantiator.InstantiateSlope(1, true);
         instantiator.InstantiateStraightGround(10);
-        instantiator.InstantiateSlopeDownward(5);
+        instantiator.InstantiateSlope(5, false);
         instantiator.InstantiateStraightGround(5);
-        instantiator.InstantiateSlopeDownward(4);
+        instantiator.InstantiateSlope(4, false);
         instantiator.InstantiateStraightGround(20);
-        instantiator.InstantiateSlopeUpward(10);
+        instantiator.InstantiateSlope(10, true);
         instantiator.InstantiateStraightGround(3);
-        instantiator.InstantiateSlopeDownward(15);
+        instantiator.InstantiateSlope(15, false);
         instantiator.InstantiateStraightGround(3);
-        instantiator.InstantiateSlopeUpward(6);
+        instantiator.InstantiateSlope(6, true);
         instantiator.InstantiateStraightGround(10);
     }
 }
