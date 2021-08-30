@@ -6,6 +6,8 @@ public class Instantiator : MonoBehaviour
     [SerializeField] int ObstacleGenerationPercentage;
     [SerializeField] int initialLayerOrder;
 
+    bool obsHasBeenInstantiated = true;
+
     [SerializeField] GameObject[] straightGround;
     [SerializeField] GameObject[] slopeGroundUpward;
     [SerializeField] GameObject[] slopeGroundDownward;
@@ -79,10 +81,10 @@ public class Instantiator : MonoBehaviour
             //TODO: colocar Random do index do array de objetos retos para randomizar os chaozinho quando tivermos mais assets
             Instantiate(obj, objectPosition, obj.transform.rotation);
 
-            /*if (SortObstacleInstantiation(ObstacleGenerationPercentage))
+            if (SortObstacleInstantiation(ObstacleGenerationPercentage))
             {
                 InstantiateObstacle(groundObstacle[0], obj, objColliderWidth);
-            }*/
+            }
 
                 objSpriteRenderer.sortingOrder--;
 
@@ -90,21 +92,30 @@ public class Instantiator : MonoBehaviour
         }
     }
 
-    /*private void InstantiateObstacle(GameObject obstacle, GameObject ground, float groundColliderWidth)
+    private void InstantiateObstacle(GameObject obstacle, GameObject ground, float groundColliderWidth)
     {
-        if(objectPosition == Vector2.zero)
+        if(obsHasBeenInstantiated)
         {
+            obsHasBeenInstantiated = false;
             return;
         }
 
         float posPercentage = Random.Range(0.3f, 0.7f);
 
         GameObject obs = obstacle;
+        Vector2 obsPosition = Vector2.zero;
 
-        Vector2 obsPosition = objectPosition + new Vector2(groundColliderWidth * posPercentage, obs.transform.position.y);
+        if (ground.transform.eulerAngles.z != 0) { // Checa se o chão é subida ou não
+            obsPosition += objectPosition + new Vector2(groundColliderWidth * posPercentage, obs.transform.position.y+0.5f); ;
+        }
+        else
+        {
+            obsPosition += objectPosition + new Vector2(groundColliderWidth * posPercentage, obs.transform.position.y);
+        }
 
         Instantiate(obs, obsPosition, ground.transform.rotation);
-    }*/
+        obsHasBeenInstantiated = true;
+    }
 
     private bool SortObstacleInstantiation(int factor)
     {

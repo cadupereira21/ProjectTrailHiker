@@ -28,4 +28,8 @@ public class GameOverView : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }
+
+    public void QuitButtonPressed(){
+        SceneManager.LoadScene("InitialScene");    
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseView : MonoBehaviour
 {
@@ -19,8 +20,7 @@ public class PauseView : MonoBehaviour
 
     public void QuitButtonPressed()
     {
-        Application.Quit();
-        Debug.Log("Quitting application!");
+        SceneManager.LoadScene("InitialScene");
     }
 }
 

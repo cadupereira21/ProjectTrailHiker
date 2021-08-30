@@ -60,6 +60,8 @@ public class PlayerMovementController : MonoBehaviour
     [Header("Agachar")]
     [Range(0f, 1f)]
     [SerializeField] float crouchResizePercentage = 0.5f;
+    [Range(1f, 10f)]
+    [SerializeField] float crouchMovementSpeed;
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -149,7 +151,7 @@ public class PlayerMovementController : MonoBehaviour
             return;
         }
 
-        cameraTarget.localPosition = new Vector2(2 + playerRb.velocity.x * speedInfluece * Time.fixedDeltaTime * playerDirection, cameraTarget.localPosition.y);
+        cameraTarget.localPosition = new Vector2(2 + playerRb.velocity.x * speedInfluece * Time.fixedDeltaTime * playerDirection, cameraTarget.localPosition.y); // Seta a posição da camera conforme a velocidade
 
         if (isJumping)
         {
@@ -165,11 +167,14 @@ public class PlayerMovementController : MonoBehaviour
         if ((Time.time - movementTimer <= movementTimeOut) && !isFalling)
         {
             // Acelerando
-            targetVelocity = new Vector2(maxSpeed * playerDirection, playerRb.velocity.y);
+            if (isCrouched) { targetVelocity = new Vector2(crouchMovementSpeed * playerDirection, playerRb.velocity.y); }
+            else { targetVelocity = new Vector2(maxSpeed * playerDirection, playerRb.velocity.y); }
+
             if (targetVelocity.x > maxSpeed)
             {
-                targetVelocity.x = maxSpeed;
+                return;
             }
+
             playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
         }
         else
@@ -177,7 +182,6 @@ public class PlayerMovementController : MonoBehaviour
             if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0*playerDirection)
             {
                 playerRb.velocity = new Vector2(0, playerRb.velocity.y);
-                //inputManager.fall = false;
                 inputManager.aTime = 0f;
                 inputManager.dTime = 0f;
             }
@@ -231,12 +235,18 @@ public class PlayerMovementController : MonoBehaviour
         playerDirection = playerDirection == 1 ? -1 : 1;
         inputManager.aTime = 0f;
         inputManager.dTime = 0f;
+        inputManager.aWasPressed = false;
+        inputManager.dWasPressed = false;
     }
 
     private void Jump()
     {
-        if(!isCrouched)
+        if (!isCrouched)
+        {
             playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            inputManager.aWasPressed = false;
+            inputManager.dWasPressed = false;
+        }
     }
 
     public void AbortJump()
@@ -260,6 +270,8 @@ public class PlayerMovementController : MonoBehaviour
             collider.offset = new Vector2(collider.offset.x, collider.offset.y - 0.45f);
             isCrouched = true;
             canJump = false;
+            inputManager.aWasPressed = false;
+            inputManager.dWasPressed = false;
         }
     }
 
@@ -269,13 +281,9 @@ public class PlayerMovementController : MonoBehaviour
         collider.size = normalColliderSize;
         isCrouched = false;
         canJump = true;
+        inputManager.aWasPressed = false;
+        inputManager.dWasPressed = false;
     }
-
-    /*public void Fall()
-    {
-        targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -playerDirection, playerRb.velocity.y);
-        playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
-    }*/
 
     private IEnumerator Fall()
     {
