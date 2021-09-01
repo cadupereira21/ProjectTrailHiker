@@ -17,3 +17,10 @@ Today I was able to implement some changes on my Collision detection, a tip give
 ## Day 5 - 25/08/2021
 
 I improved the Level Generator + Prototyped something about our scores and added some UI, so I can generate a build tomorrow and send to some people for testing purposes.
+
+## Day 6
+
+I improved the Level Generator + Added a new Initial Scene and improved the movement system
+
+## Day 7 - 01/09
+Today I implemented the Quick Time Event system. It still need balance and it's pretty static, but i'm sure I can make it realçy dynamic :)

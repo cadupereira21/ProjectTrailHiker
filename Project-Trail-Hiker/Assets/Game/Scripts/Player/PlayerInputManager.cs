@@ -1,70 +1,71 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerInputManager : MonoBehaviour
+namespace Game.Scripts.Player
 {
-    public bool aWasPressed = false;
-    public bool dWasPressed = false;
+    public class PlayerInputManager : MonoBehaviour
+    {
+        public bool aWasPressed = false;
+        public bool dWasPressed = false;
 
-    public float aTime = 0f;
-    public float dTime = 0f;
+        public float aTime = 0f;
+        public float dTime = 0f;
 
-    public bool fall = false;
+        public bool fall = false;
     
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        public void Update()
         {
-            if (!aWasPressed)
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                aWasPressed = true;
-                aTime = Time.time;
+                if (!aWasPressed)
+                {
+                    aWasPressed = true;
+                    aTime = Time.time;
+                }
+                else
+                {
+                    aWasPressed = false;
+                    fall = true;
+                }
             }
-            else
+
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                aWasPressed = false;
-                fall = true;
+                if (!dWasPressed)
+                {
+                    dWasPressed = true;
+                    dTime = Time.time;
+                }
+                else
+                {
+                    dWasPressed = false;
+                    fall = true;
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        public bool IsJumpButtonDown()
         {
-            if (!dWasPressed)
-            {
-                dWasPressed = true;
-                dTime = Time.time;
-            }
-            else
-            {
-                dWasPressed = false;
-                fall = true;
-            }
+            return Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
         }
-    }
 
-    public bool IsJumpButtonDown()
-    {
-        return Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
-    }
+        public bool IsJumpButtonReleased()
+        {
+            return Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow);
+        }
 
-    public bool IsJumpButtonReleased()
-    {
-        return Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow);
-    }
+        public bool IsCrouchButtonDown()
+        {
+            return Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
+        }
 
-    public bool IsCrouchButtonDown()
-    {
-        return Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
-    }
+        public bool IsCrouchButtonReleased()
+        {
+            return Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow);
+        }
 
-    public bool IsCrouchButtonReleased()
-    {
-        return Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow);
-    }
-
-    public bool IsSwipeDirectionButtonDown()
-    {
-        return Input.GetKeyDown(KeyCode.Q);
+        public bool IsSwipeDirectionButtonDown()
+        {
+            return Input.GetKeyDown(KeyCode.Q);
+        }
     }
 }

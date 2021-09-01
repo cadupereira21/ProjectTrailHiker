@@ -97,6 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8835070284364335841}
   - component: {fileID: 8835070284364335846}
+  - component: {fileID: 1352059558}
   m_Layer: 0
   m_Name: VirtualCamera1
   m_TagString: Untagged
@@ -154,6 +155,22 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 8835070284265952983}
+--- !u!114 &1352059558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835070284364335847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8177c461403785f418087f81d53e06b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTarget: {fileID: 8835070284735828617}
+  player: {fileID: 8835070285861265397}
+  speedInfluence: 30
+  cameraTargetSlopeOffset: {x: 1, y: -1.5, z: 5}
 --- !u!1 &8835070284735828622
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,76 +201,6 @@ Transform:
   m_Father: {fileID: 8835070285861265385}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8835070285377046275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8835070285377046274}
-  - component: {fileID: 8835070285377046284}
-  - component: {fileID: 8835070285377046285}
-  m_Layer: 10
-  m_Name: CheckpointDetection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8835070285377046274
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835070285377046275}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.56, y: 1.8, z: 0}
-  m_LocalScale: {x: 0.31764, y: 0.31764, z: 0.31764}
-  m_Children: []
-  m_Father: {fileID: 8835070285861265385}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8835070285377046284
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835070285377046275}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &8835070285377046285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835070285377046275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d47326b23a175d4ab72461e15784e8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8835070285861265391
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +215,7 @@ GameObject:
   - component: {fileID: 8835070285861265386}
   - component: {fileID: 8835070285861265384}
   - component: {fileID: 8835070285861265396}
+  - component: {fileID: 1176570689}
   m_Layer: 9
   m_Name: player
   m_TagString: Player
@@ -289,7 +237,6 @@ Transform:
   - {fileID: 8835070284735828617}
   - {fileID: 8835070285954236359}
   - {fileID: 8835070284364335841}
-  - {fileID: 8835070285377046274}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -420,8 +367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aeeb2ed4cb5be4b833b65273c34083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTarget: {fileID: 8835070284735828617}
-  playerDirection: 1
   inputAverageTime: 0
   isFalling: 0
   accelerationRate: 0.521
@@ -429,12 +374,12 @@ MonoBehaviour:
   fallSpeedDeceleration: 0.6
   movementTimeOut: 1
   maxSpeedTimeOut: 3
-  speedInfluece: 30
   velocidadeSuperLenta: 0.5
   velocidadeLenta: 0.35
   "velocidadeM\xE9dia": 0.22
   velocidadeAlta: 0.12
   velocidadeSuperAlta: 0.03
+  slopeSpeed: 10
   canJump: 1
   isJumping: 0
   jumpForce: 6.5
@@ -442,6 +387,21 @@ MonoBehaviour:
   jumpAbortDecceleration: 120
   crouchResizePercentage: 0.5
   crouchMovementSpeed: 5
+--- !u!114 &1176570689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835070285861265391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fdc38b4689f5a43bfef0fdf555add9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balanceAmount: 1
+  balanceRechargeRate: 0.5
+  unbalancePercentageRate: 0.2
 --- !u!1 &8835070285954236356
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,4 +448,16 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
+  whatIsSlopeUp:
+    serializedVersion: 2
+    m_Bits: 4096
+  whatIsSlopeDown:
+    serializedVersion: 2
+    m_Bits: 8192
+  whatIsGameOverTrigger:
+    serializedVersion: 2
+    m_Bits: 1024
   isGrounded: 0
+  isMovingDown: 0
+  isMovingUp: 0
+  isGameOver: 0
