@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Instantiator : MonoBehaviour
 {
+    [FormerlySerializedAs("ObstacleGenerationPercentage")]
     [Tooltip("The percentage of time in which an obstacle will be instantiated with a ground object")]
-    [SerializeField] int ObstacleGenerationPercentage;
-    [SerializeField] int initialLayerOrder;
+    [SerializeField] private int obstacleGenerationPercentage;
+    [SerializeField] private int initialLayerOrder;
 
     bool obsHasBeenInstantiated = true;
 
@@ -13,7 +15,7 @@ public class Instantiator : MonoBehaviour
     [SerializeField] GameObject[] slopeGroundDownward;
     [SerializeField] GameObject[] groundObstacle;
 
-    Vector2 objectPosition;
+    private Vector2 objectPosition;
 
     private void Awake()
     {
@@ -81,12 +83,13 @@ public class Instantiator : MonoBehaviour
             //TODO: colocar Random do index do array de objetos retos para randomizar os chaozinho quando tivermos mais assets
             Instantiate(obj, objectPosition, obj.transform.rotation);
 
-            if (SortObstacleInstantiation(ObstacleGenerationPercentage) && obj.transform.eulerAngles.z == 0)
+            // Instanciador de obstaculos
+            if (SortObstacleInstantiation(obstacleGenerationPercentage) && obj.transform.eulerAngles.z == 0)
             {
                 InstantiateObstacle(groundObstacle[0], obj, objColliderWidth);
             }
 
-                objSpriteRenderer.sortingOrder--;
+            objSpriteRenderer.sortingOrder--;
 
             objectPosition += newPosition;
         }

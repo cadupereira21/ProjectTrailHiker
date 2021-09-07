@@ -18,12 +18,12 @@ namespace Game.Scripts.Player
 
         public int PlayerDirection { private set; get; } = 1;
 
-        public float inputAverageTime = 0f;
+        private float inputAverageTime = 0f;
         private float maxSpeed = 10f;
         private float movementTimer = -1f;
 
-        public bool isFalling;
-
+        public bool isFalling { private set; get; }
+        
         [Header("Movimentação")]
         [Range(0f, 1f)]
         [SerializeField] private float accelerationRate;
@@ -32,34 +32,34 @@ namespace Game.Scripts.Player
         [SerializeField] private float fallSpeedDeceleration;
         [Range(0.1f, 1f)]
         [Tooltip("Seta o time out entre os inputs necessário para o personagem começar a frear")]
-        [SerializeField] float movementTimeOut = 1f;
-        [SerializeField] float maxSpeedTimeOut;
-        [SerializeField] float velocidadeSuperLenta = 0.5f;
-        [SerializeField] float velocidadeLenta = 0.35f;
-        [SerializeField] float velocidadeMédia = 0.22f;
-        [SerializeField] float velocidadeAlta = 0.12f;
-        [SerializeField] float velocidadeSuperAlta = 0.03f;
+        [SerializeField] private float movementTimeOut = 1f;
+        [SerializeField] private float maxSpeedTimeOut;
+        [SerializeField] private float velocidadeSuperLenta = 0.5f;
+        [SerializeField] private float velocidadeLenta = 0.35f;
+        [SerializeField] private float velocidadeMédia = 0.22f;
+        [SerializeField] private float velocidadeAlta = 0.12f;
+        [SerializeField] private float velocidadeSuperAlta = 0.03f;
         [Range(5f, 15f)]
         [SerializeField] private float slopeSpeed;
 
 
         [Header("Pulo")]
-        [SerializeField] bool canJump = true;
-        [SerializeField] bool isJumping = false;
+        [SerializeField] private bool canJump = true;
+        [SerializeField] private bool isJumping = false;
         [Range(5f, 20f)]
-        [SerializeField] float jumpForce = 5f;
+        [SerializeField] private float jumpForce = 5f;
         [Range(5f, 20f)]
-        [SerializeField] float gravityForce = 5f;
-        [SerializeField] float jumpAbortDecceleration = 4f;
+        [SerializeField] private float gravityForce = 5f;
+        [SerializeField] private float jumpAbortDecceleration = 4f;
 
         bool isCrouched;
         Vector2 normalColliderOffset;
         Vector2 normalColliderSize;
         [Header("Agachar")]
         [Range(0f, 1f)]
-        [SerializeField] float crouchResizePercentage = 0.5f;
+        [SerializeField] private float crouchResizePercentage = 0.5f;
         [Range(1f, 10f)]
-        [SerializeField] float crouchMovementSpeed;
+        [SerializeField] private float crouchMovementSpeed;
         
         [Header("Estabilidade do Jogador")]
         public float balanceAmount = 1.0f;
@@ -67,11 +67,11 @@ namespace Game.Scripts.Player
         [SerializeField]private float balanceRechargeRate;
         [Range(0f, 1f)]
         [SerializeField]private float unbalancePercentageRate;
-
+        [Range(0.5f, 1f)]
+        [SerializeField]private float unbalanceSpeedInfluence;
+        
         public float SlopeSpeed => slopeSpeed;
-
         public float UnbalancePercentageRate => unbalancePercentageRate;
-
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // Start is called before the first frame update
@@ -92,6 +92,7 @@ namespace Game.Scripts.Player
 
         public void Update()
         {
+            // Recharhes the balance amount
             if (balanceAmount < 1)
             {
                 balanceAmount += balanceRechargeRate * Time.deltaTime;
@@ -100,6 +101,13 @@ namespace Game.Scripts.Player
             {
                 balanceAmount = 1;
             }
+            // Triggers the fall when balance reaches 0
+            if (balanceAmount < 0)
+            {
+                inputManager.fall = true;
+                balanceAmount = 0.1f;
+            }
+            
             // Flip
             if (inputManager.IsSwipeDirectionButtonDown())
             {
@@ -115,16 +123,17 @@ namespace Game.Scripts.Player
             if (inputManager.fall)
             {
                 Debug.Log("Cai");
-                scoreManager.fallNumber += 1;
+                //TODO: Play animation
                 StartCoroutine(Fall());
                 inputManager.fall = false;
+                scoreManager.fallNumber += 1;
             }
 
             // Pulo
             canJump = colliderManager.isGrounded && !colliderManager.isMovingUp && !colliderManager.isMovingDown;
             isJumping = !colliderManager.isGrounded;
 
-            if (inputManager.IsJumpButtonDown() && canJump)
+            if (inputManager.IsJumpButtonDown() && canJump && !colliderManager.needsToJump)
             {
                 Jump();
             }
@@ -134,12 +143,12 @@ namespace Game.Scripts.Player
             }
 
             //Agachar
-            if (inputManager.IsCrouchButtonDown())
+            if (inputManager.IsCrouchButtonDown() && !colliderManager.isMovingDown && !colliderManager.needsToJump)
             {
                 Debug.Log("Agachei");
                 Crouch();
             }
-            if (inputManager.IsCrouchButtonReleased())
+            if (inputManager.IsCrouchButtonReleased() && !colliderManager.isMovingDown)
             {
                 Debug.Log("Desagachei");
                 Uncrouch();
@@ -147,7 +156,10 @@ namespace Game.Scripts.Player
 
             // Andar
             // Calculando a média entre os dois cliques
-            inputAverageTime = Mathf.Abs(inputManager.aTime - inputManager.dTime);
+            if (!isJumping && !colliderManager.isMovingDown && !colliderManager.isMovingUp && !isFalling && !colliderManager.needsToJump)
+                inputAverageTime = Mathf.Abs(inputManager.aTime - inputManager.dTime);
+            else
+                inputAverageTime = 0;
 
             // Normaliza o valor da media do input e seta a velocidade máxima para cada media
             NormalizeInputAverageTime();
@@ -163,26 +175,18 @@ namespace Game.Scripts.Player
 
         public void FixedUpdate()
         {
-            if (!gameManager.IsGameRunning)
+            if (!gameManager.IsGameRunning || isFalling || colliderManager.isMovingDown || colliderManager.isMovingUp || colliderManager.needsToJump)
             {
                 return;
             }
             
-            if (isJumping || colliderManager.isMovingDown)
+            if (isJumping)
             {
                 ApplyGravity();
             }
 
-            if (isFalling)
-            {
-                return;
-            }
-
-            if (colliderManager.isMovingDown || colliderManager.isMovingUp)
-                return;
-            
             // Move e desacelera o personagem conforme a média de tempo dos inputs
-            if ((Time.time - movementTimer <= movementTimeOut) && !isFalling)
+            if ((Time.time - movementTimer <= movementTimeOut))
             {
                 // Acelerando
                 if (isCrouched) { targetVelocity = new Vector2(crouchMovementSpeed * PlayerDirection, playerRb.velocity.y); }
@@ -197,11 +201,11 @@ namespace Game.Scripts.Player
             }
             else
             {
-                if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0*PlayerDirection)
+                inputManager.aTime = 0;
+                inputManager.dTime = 0;
+                if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0 * PlayerDirection)
                 {
                     playerRb.velocity = new Vector2(0, playerRb.velocity.y);
-                    inputManager.aTime = 0f;
-                    inputManager.dTime = 0f;
                 }
                 else if(!isJumping)
                 {
@@ -239,6 +243,7 @@ namespace Game.Scripts.Player
             {
                 maxSpeed = 15f;
                 inputAverageTime = velocidadeSuperAlta;
+                balanceAmount -= unbalanceSpeedInfluence * Time.deltaTime;
             }
             else if(inputAverageTime > 0f)
             {
@@ -311,16 +316,19 @@ namespace Game.Scripts.Player
         private IEnumerator Fall()
         {
             isFalling = true;
-            while(playerRb.velocity != Vector2.zero && playerRb.velocity.x > 0*PlayerDirection)
+            
+            while(playerRb.velocity.x > 0*PlayerDirection)
             {
                 targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
                 playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+                //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
                 yield return null;
             }
             isFalling = false;
 
             inputManager.aWasPressed = false;
             inputManager.dWasPressed = false;
+            //balanceAmount = 1;
 
             StopCoroutine(Fall());
         }

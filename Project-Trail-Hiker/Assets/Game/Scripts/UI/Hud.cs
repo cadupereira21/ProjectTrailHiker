@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts.Player;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -14,12 +15,14 @@ public class Hud : MonoBehaviour
     public Transform gameOverTriggerPosition;
 
     public Slider progressBar;
+    public Slider balanceBar;
 
     public GameObject[] starMiss;
     public GameObject[] clockMiss;
 
     Clock clock;
     ScoreManager scoreManager;
+    private PlayerMovementController playerMovement;
 
     public float progressPercentage = 0;
 
@@ -27,8 +30,7 @@ public class Hud : MonoBehaviour
     {
         scoreManager = FindObjectOfType<ScoreManager>();
         clock = FindObjectOfType<Clock>();
-
-
+        playerMovement = FindObjectOfType<PlayerMovementController>();
     }
 
     private void Update()
@@ -66,5 +68,7 @@ public class Hud : MonoBehaviour
 
         progressPercentage = playerPosition.position.x / gameOverTriggerPosition.position.x;
         progressBar.value = progressPercentage;
+
+        balanceBar.value = playerMovement.balanceAmount;
     }
 }

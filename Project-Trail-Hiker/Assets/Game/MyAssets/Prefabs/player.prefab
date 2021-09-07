@@ -113,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835070284364335847}
   m_LocalRotation: {x: 0.008726558, y: -0, z: -0, w: 0.999962}
-  m_LocalPosition: {x: 1, y: 4.376121, z: -18.985037}
+  m_LocalPosition: {x: 1.0000002, y: 4.8451514, z: -18.985037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8835070284265952983}
@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835070284735828622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.5, z: 0}
+  m_LocalPosition: {x: 1, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8835070285861265385}
@@ -213,9 +213,11 @@ GameObject:
   - component: {fileID: 8835070285861265390}
   - component: {fileID: 8835070285861265397}
   - component: {fileID: 8835070285861265386}
+  - component: {fileID: 778138423}
   - component: {fileID: 8835070285861265384}
   - component: {fileID: 8835070285861265396}
   - component: {fileID: 1176570689}
+  - component: {fileID: 8504988797918720915}
   m_Layer: 9
   m_Name: player
   m_TagString: Player
@@ -232,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 8835070285861265391}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 8835070284735828617}
   - {fileID: 8835070285954236359}
@@ -280,7 +282,7 @@ SpriteRenderer:
   m_SortingLayerID: 369652837
   m_SortingLayer: 3
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: df72d97bae32378418e06baa2e1be3ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc642fffb37933943ad608354ffa7dc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -325,19 +327,38 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.98}
+  m_Offset: {x: 0, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.42, y: 0.1}
-    oldSize: {x: 3.7534883, y: 2.8325582}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.94, y: 3.6}
     newSize: {x: 3.7534883, y: 2.8325582}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 1.75}
+  m_Size: {x: 0.3, y: 2.6}
   m_EdgeRadius: 0.1
+--- !u!95 &778138423
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835070285861265391}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1cf69264bfdd96e45be2277fb5ee87e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8835070285861265384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,8 +388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aeeb2ed4cb5be4b833b65273c34083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAverageTime: 0
-  isFalling: 0
   accelerationRate: 0.521
   decelerationForce: 2
   fallSpeedDeceleration: 0.6
@@ -387,6 +406,10 @@ MonoBehaviour:
   jumpAbortDecceleration: 120
   crouchResizePercentage: 0.5
   crouchMovementSpeed: 5
+  balanceAmount: 1
+  balanceRechargeRate: 0.5
+  unbalancePercentageRate: 0.414
+  unbalanceSpeedInfluence: 0.86
 --- !u!114 &1176570689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,9 +422,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fdc38b4689f5a43bfef0fdf555add9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balanceAmount: 1
-  balanceRechargeRate: 0.5
-  unbalancePercentageRate: 0.2
+--- !u!114 &8504988797918720915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8835070285861265391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af46716bc43e4a34185c55909b775c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8835070285954236356
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +459,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835070285954236356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.005, z: 0}
+  m_LocalPosition: {x: 0.276, y: -1.425, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8835070285861265385}
@@ -457,7 +489,11 @@ MonoBehaviour:
   whatIsGameOverTrigger:
     serializedVersion: 2
     m_Bits: 1024
+  whatIsObstacleQteTrigger:
+    serializedVersion: 2
+    m_Bits: 0
   isGrounded: 0
   isMovingDown: 0
   isMovingUp: 0
   isGameOver: 0
+  needsToJump: 0

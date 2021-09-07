@@ -23,4 +23,10 @@ I improved the Level Generator + Prototyped something about our scores and added
 I improved the Level Generator + Added a new Initial Scene and improved the movement system
 
 ## Day 7 - 01/09
-Today I implemented the Quick Time Event system. It still need balance and it's pretty static, but i'm sure I can make it realçy dynamic :)
+Today I implemented the Quick Time Event system. It still need balance and it's pretty static, but i'm sure I can make it really dynamic :)
+
+## Day 8 - 02/09
+Today I tried all the assets from my artists, added the walking animation on my character and improved the quick time event! Now you can fall on it ahuahuahua. I'm also trying to implement the system where you fall every time your balance reaches 0 :)
+
+## Day 9 - 07/09
+Today I fully implemented the system where you fall whenever your balance reaches 0. I was also able to implement the obstacle QTE, now we only need to polish it!
