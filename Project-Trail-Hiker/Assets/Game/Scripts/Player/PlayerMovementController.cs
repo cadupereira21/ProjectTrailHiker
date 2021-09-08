@@ -23,13 +23,14 @@ namespace Game.Scripts.Player
         private float movementTimer = -1f;
 
         public bool isFalling { private set; get; }
+        public bool IsFlipping { private set; get; }
         
         [Header("Movimentação")]
         [Range(0f, 1f)]
         [SerializeField] private float accelerationRate;
         [Range(1f, 5f)]
         [SerializeField] private float decelerationForce = 2f;
-        [SerializeField] private float fallSpeedDeceleration;
+        [SerializeField] private float decelerationRate;
         [Range(0.1f, 1f)]
         [Tooltip("Seta o time out entre os inputs necessário para o personagem começar a frear")]
         [SerializeField] private float movementTimeOut = 1f;
@@ -114,7 +115,7 @@ namespace Game.Scripts.Player
                 FlipDirection();
             }
 
-            if (!gameManager.IsGameRunning)
+            if (!gameManager.IsGameRunning || IsFlipping)
             {
                 return;
             }
@@ -175,7 +176,7 @@ namespace Game.Scripts.Player
 
         public void FixedUpdate()
         {
-            if (!gameManager.IsGameRunning || isFalling || colliderManager.isMovingDown || colliderManager.isMovingUp || colliderManager.needsToJump)
+            if (!gameManager.IsGameRunning || isFalling || colliderManager.isMovingDown || colliderManager.isMovingUp || colliderManager.needsToJump || IsFlipping)
             {
                 return;
             }
@@ -203,15 +204,7 @@ namespace Game.Scripts.Player
             {
                 inputManager.aTime = 0;
                 inputManager.dTime = 0;
-                if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0 * PlayerDirection)
-                {
-                    playerRb.velocity = new Vector2(0, playerRb.velocity.y);
-                }
-                else if(!isJumping)
-                {
-                    // Desacelerando
-                    ApplyDeceleration();
-                }
+                ApplyDeceleration();
             }
         }
 
@@ -253,8 +246,10 @@ namespace Game.Scripts.Player
 
         private void FlipDirection()
         {
+            
             playerRb.transform.localScale = new Vector3(-playerRb.transform.localScale.x, playerRb.transform.localScale.y, playerRb.transform.localScale.z);
             PlayerDirection = PlayerDirection == 1 ? -1 : 1;
+            StartCoroutine(Flipping());
             inputManager.aTime = 0f;
             inputManager.dTime = 0f;
             inputManager.aWasPressed = false;
@@ -286,8 +281,15 @@ namespace Game.Scripts.Player
 
         public void ApplyDeceleration()
         {
-            targetVelocity = new Vector2(decelerationForce * maxSpeed * -PlayerDirection, playerRb.velocity.y);
-            playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+            if (Mathf.Approximately(playerRb.velocity.x, 0) || playerRb.velocity.x < 0 * PlayerDirection)
+            {
+                playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+            }
+            else if(!isJumping)
+            {
+                targetVelocity = new Vector2(decelerationForce * maxSpeed * -PlayerDirection, playerRb.velocity.y);
+                playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+            }
         }
 
         private void Crouch()
@@ -317,10 +319,10 @@ namespace Game.Scripts.Player
         {
             isFalling = true;
             
-            while(playerRb.velocity.x > 0*PlayerDirection)
+            while(playerRb.velocity.x != 0)
             {
-                targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
-                playerRb.velocity = Vector2.Lerp(playerRb.velocity, targetVelocity, Time.deltaTime * accelerationRate);
+                //targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
+                playerRb.velocity = Vector2.Lerp(playerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate);
                 //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
                 yield return null;
             }
@@ -331,6 +333,24 @@ namespace Game.Scripts.Player
             //balanceAmount = 1;
 
             StopCoroutine(Fall());
+        }
+
+        private IEnumerator Flipping()
+        {
+            IsFlipping = true;
+            while(!Mathf.Approximately(playerRb.velocity.x, 0))
+            {
+                //targetVelocity = new Vector2( maxSpeed * -PlayerDirection, playerRb.velocity.y);
+                playerRb.velocity = Vector2.Lerp(playerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate*2f);
+                //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
+                yield return null;
+            }
+            IsFlipping = false;
+            inputManager.aWasPressed = false;
+            inputManager.dWasPressed = false;
+            //balanceAmount = 1;
+
+            StopCoroutine(Flipping());
         }
     }
 }

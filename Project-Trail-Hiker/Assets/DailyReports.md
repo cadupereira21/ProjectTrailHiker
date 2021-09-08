@@ -8,7 +8,7 @@ Today I worked on all the movement features of our game. They are all too raw, b
 
 ## DAY 3 - 20/08/2021
 
-I worked to improve the movement mechanincs, so now we can't jump and crouch as we please, you can control your jump height, and the speed is divided in 5 categories, from super slow to super fast. I also added the fall feature, even tough we don't have animation. I want to implement my virtual camera next;
+I worked to improve the movement mechanics, so now we can't jump and crouch as we please, you can control your jump height, and the speed is divided in 5 categories, from super slow to super fast. I also added the fall feature, even tough we don't have animation. I want to implement my virtual camera next;
 
 ## DAY 4 - 23/08/2021
 
@@ -30,3 +30,6 @@ Today I tried all the assets from my artists, added the walking animation on my 
 
 ## Day 9 - 07/09
 Today I fully implemented the system where you fall whenever your balance reaches 0. I was also able to implement the obstacle QTE, now we only need to polish it!
+
+## Day 10 - 08/09
+Today I improved the QTE system with a responsive UI and improved the movement manager code

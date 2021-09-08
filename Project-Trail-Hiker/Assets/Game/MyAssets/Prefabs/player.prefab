@@ -390,7 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelerationRate: 0.521
   decelerationForce: 2
-  fallSpeedDeceleration: 0.6
+  decelerationRate: 0.6
   movementTimeOut: 1
   maxSpeedTimeOut: 3
   velocidadeSuperLenta: 0.5
@@ -491,7 +491,7 @@ MonoBehaviour:
     m_Bits: 1024
   whatIsObstacleQteTrigger:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   isGrounded: 0
   isMovingDown: 0
   isMovingUp: 0

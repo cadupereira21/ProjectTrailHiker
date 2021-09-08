@@ -2441,9 +2441,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
-    - target: {fileID: 8835070285954236358, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
-      propertyPath: whatIsObstacleQteTrigger.m_Bits
-      value: 16384
+    - target: {fileID: 8835070285861265396, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+      propertyPath: decelerationRate
+      value: 2.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
@@ -3058,6 +3058,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5853699226319878144, guid: fb85899fecefa454fb59074ea6a60d06, type: 3}
+      propertyPath: obstacleGenerationPercentage
+      value: 95
+      objectReference: {fileID: 0}
     - target: {fileID: 5853699226319878145, guid: fb85899fecefa454fb59074ea6a60d06, type: 3}
       propertyPath: m_RootOrder
       value: 5

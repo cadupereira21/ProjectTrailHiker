@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Scripts.UI;
 using UnityEngine;
 
 namespace Game.Scripts.Player
@@ -9,6 +10,7 @@ namespace Game.Scripts.Player
       private PlayerColliderManager colliderManager;
       private PlayerMovementController playerMovement;
       private PlayerInputManager inputManager;
+      private Hud hud;
 
       private bool isOnObstacleQte = false;
       private void Start()
@@ -17,6 +19,7 @@ namespace Game.Scripts.Player
          player = GetComponent<Rigidbody2D>();
          playerMovement = GetComponent<PlayerMovementController>();
          inputManager = GetComponent<PlayerInputManager>();
+         hud = FindObjectOfType<Hud>();
       }
 
       private void Update()
@@ -49,7 +52,11 @@ namespace Game.Scripts.Player
          {
             player.velocity = Vector2.zero;
          }
-         else if(!colliderManager.needsToJump)
+         else if(colliderManager.needsToJump)
+         {
+            player.velocity = player.velocity;
+         }
+         else
          {
             playerMovement.ApplyDeceleration();
          }
@@ -97,6 +104,8 @@ namespace Game.Scripts.Player
 
       private IEnumerator ObstacleQte()
       {
+         hud.ShowQTEButton("W");
+         yield return new WaitForSeconds(0.15f);
          inputManager.aWasPressed = false;
          inputManager.dWasPressed = false;
          
@@ -105,6 +114,12 @@ namespace Game.Scripts.Player
 
          while (!isButtonPressed)
          {
+            if (!colliderManager.needsToJump)
+            {
+               isRightButton = false;
+               Debug.Log("Voce nao apertou nenhum botao!");
+               break;
+            }
             if (Input.anyKeyDown)
             {
                isButtonPressed = true;
@@ -123,12 +138,8 @@ namespace Game.Scripts.Player
 
             yield return null;
          }
-
-         while (colliderManager.needsToJump)
-         {
-            yield return null;
-         }
          
+         hud.QteRespondPlayerInput("W", isRightButton);
          switch (isRightButton)
          {
             case true: Debug.Log("Botao Certo!");
@@ -137,6 +148,14 @@ namespace Game.Scripts.Player
                inputManager.fall = true;
                break;
          }
+
+         while (colliderManager.needsToJump)
+         {
+            yield return null;
+         }
+         
+         hud.HideQTEButton("W");
+         StopCoroutine(ObstacleQte());
       }
    }
 }
