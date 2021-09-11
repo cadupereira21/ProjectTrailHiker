@@ -33,3 +33,6 @@ Today I fully implemented the system where you fall whenever your balance reache
 
 ## Day 10 - 08/09
 Today I improved the QTE system with a responsive UI and improved the movement manager code
+
+## Day 11 - 11/09
+Today I improved the slope QTE Physics, as well as fixed a bug in the walking animation while on a slope. I also added the company and game logo to the initial scene

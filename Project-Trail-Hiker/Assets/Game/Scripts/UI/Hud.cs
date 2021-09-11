@@ -83,21 +83,57 @@ namespace Game.Scripts.UI
 
         public void ShowQTEButton(string whichButton)
         {
-            qteButtons[0].SetActive(true);
-            var imageRenderer = qteButtons[0].GetComponent<Image>();
+            var buttonIndex = 0;
+
+            switch (whichButton)
+            {
+                case "W":
+                    buttonIndex = 0;
+                    break;
+                case "S":
+                    buttonIndex = 1;
+                    break;
+            }
+            
+            qteButtons[buttonIndex].SetActive(true);
+            var imageRenderer = qteButtons[buttonIndex].GetComponent<Image>();
             imageRenderer.color = Color.white;
         }
 
         public void HideQTEButton(string whichButton)
         {
-            qteButtons[0].SetActive(false);
+            var buttonIndex = 0;
+
+            switch (whichButton)
+            {
+                case "W":
+                    buttonIndex = 0;
+                    break;
+                case "S":
+                    buttonIndex = 1;
+                    break;
+            }
+            
+            qteButtons[buttonIndex].SetActive(false);
         }
 
         public void QteRespondPlayerInput(string whichButton, bool isRightButton)
         {
-            if (!qteButtons[0].activeInHierarchy) return;
+            var buttonIndex = 0;
+
+            switch (whichButton)
+            {
+                case "W":
+                    buttonIndex = 0;
+                    break;
+                case "S":
+                    buttonIndex = 1;
+                    break;
+            }
             
-            var imageRenderer = qteButtons[0].GetComponent<Image>();
+            if (!qteButtons[buttonIndex].activeInHierarchy) return;
+            
+            var imageRenderer = qteButtons[buttonIndex].GetComponent<Image>();
             switch (isRightButton)
             {
                 case true:

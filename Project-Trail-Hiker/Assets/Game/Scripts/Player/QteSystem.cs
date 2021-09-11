@@ -6,6 +6,9 @@ namespace Game.Scripts.Player
 {
    public class QteSystem : MonoBehaviour
    {
+      public PhysicsMaterial2D normalPhysics;
+      public PhysicsMaterial2D slopePhysics;
+      
       private Rigidbody2D player;
       private PlayerColliderManager colliderManager;
       private PlayerMovementController playerMovement;
@@ -29,8 +32,13 @@ namespace Game.Scripts.Player
             isOnObstacleQte = false;
             StopCoroutine(SlopeQte(true));
             StopCoroutine(SlopeQte(false));
+            hud.HideQTEButton("S");
+            hud.HideQTEButton("W");
+            player.sharedMaterial = normalPhysics;
             return;
          }
+         
+         player.sharedMaterial = slopePhysics;
 
          if (colliderManager.isMovingUp)
          {
@@ -52,13 +60,14 @@ namespace Game.Scripts.Player
          {
             player.velocity = Vector2.zero;
          }
-         else if(colliderManager.needsToJump)
-         {
-            player.velocity = player.velocity;
-         }
-         else
+         else if(!colliderManager.needsToJump)
          {
             playerMovement.ApplyDeceleration();
+         }
+
+         if (colliderManager.needsToJump && Mathf.Approximately(player.velocity.x, 0))
+         {
+            StartCoroutine(GetOutOfObstacleQte());
          }
       }
 
@@ -67,19 +76,24 @@ namespace Game.Scripts.Player
          bool isButtonPressed = false;
          KeyCode buttonNeeded1 = KeyCode.A;
          KeyCode buttonNeeded2 = KeyCode.A;
+         var whichButton = "";
 
          switch (isMovingUp)
          {
             case true:
+               whichButton = "W";
                buttonNeeded1 = KeyCode.W;
                buttonNeeded2 = KeyCode.UpArrow;
                break;
             case false:
+               whichButton = "S";
                buttonNeeded1 = KeyCode.S;
                buttonNeeded2 = KeyCode.DownArrow;
                break;
          }
-
+         
+         hud.ShowQTEButton(whichButton);
+         
          if (Input.anyKeyDown)
          {
             isButtonPressed = true;
@@ -105,7 +119,7 @@ namespace Game.Scripts.Player
       private IEnumerator ObstacleQte()
       {
          hud.ShowQTEButton("W");
-         yield return new WaitForSeconds(0.15f);
+         yield return new WaitForSeconds(0.12f);
          inputManager.aWasPressed = false;
          inputManager.dWasPressed = false;
          
@@ -154,8 +168,18 @@ namespace Game.Scripts.Player
             yield return null;
          }
          
-         hud.HideQTEButton("W");
+         //hud.HideQTEButton("W");
          StopCoroutine(ObstacleQte());
+      }
+
+      private IEnumerator GetOutOfObstacleQte()
+      {
+         while (colliderManager.needsToJump)
+         {
+            player.velocity += Vector2.right.normalized*Time.deltaTime*15;
+            yield return null;
+         }
+         StopCoroutine(GetOutOfObstacleQte());
       }
    }
 }

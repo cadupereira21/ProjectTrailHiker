@@ -1252,17 +1252,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &534798120 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9206710928433738465, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
-  m_PrefabInstance: {fileID: 1983841737}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &566264591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,7 +1631,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764526407}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1159, y: 0, z: 0}
+  m_LocalPosition: {x: 858, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2393,6 +2382,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8835070284364335841, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.0000002
+      objectReference: {fileID: 0}
     - target: {fileID: 8835070285861265385, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2440,10 +2433,6 @@ PrefabInstance:
     - target: {fileID: 8835070285861265391, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
       propertyPath: m_Name
       value: player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8835070285861265396, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
-      propertyPath: decelerationRate
-      value: 2.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
@@ -3455,10 +3444,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1935122276810840883, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
-      propertyPath: balanceBar
-      value: 
-      objectReference: {fileID: 534798120}
     - target: {fileID: 1935122276810840883, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
       propertyPath: playerPosition
       value: 

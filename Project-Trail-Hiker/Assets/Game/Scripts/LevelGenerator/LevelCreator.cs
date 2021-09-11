@@ -35,6 +35,18 @@ public class LevelCreator : MonoBehaviour
 
     private void CreateTestLevel()
     {
-        instantiator.InstantiateStraightGround(25);
+        instantiator.InstantiateStraightGround(10);
+        instantiator.InstantiateSlope(5, true);
+        instantiator.InstantiateStraightGround(3);
+        instantiator.InstantiateSlope(5, false);
+        instantiator.InstantiateStraightGround(5);
+        instantiator.InstantiateSlope(2, true);
+        instantiator.InstantiateStraightGround(5);
+        instantiator.InstantiateSlope(2, true);
+        instantiator.InstantiateStraightGround(3);
+        instantiator.InstantiateSlope(3, false);
+        instantiator.InstantiateStraightGround(1);
+        instantiator.InstantiateSlope(1, false);
+        instantiator.InstantiateStraightGround(10);
     }
 }

@@ -113,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835070284364335847}
   m_LocalRotation: {x: 0.008726558, y: -0, z: -0, w: 0.999962}
-  m_LocalPosition: {x: 1.0000002, y: 4.8451514, z: -18.985037}
+  m_LocalPosition: {x: 1, y: 4.8451514, z: -18.985037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8835070284265952983}
@@ -282,7 +282,7 @@ SpriteRenderer:
   m_SortingLayerID: 369652837
   m_SortingLayer: 3
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: cc642fffb37933943ad608354ffa7dc2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5af622b7072cc3e4d83bef506d423836, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -331,7 +331,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.94, y: 3.6}
+    oldSize: {x: 0.69, y: 3.24}
     newSize: {x: 3.7534883, y: 2.8325582}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accelerationRate: 0.521
   decelerationForce: 2
-  decelerationRate: 0.6
+  decelerationRate: 2.3
   movementTimeOut: 1
   maxSpeedTimeOut: 3
   velocidadeSuperLenta: 0.5
@@ -407,7 +407,7 @@ MonoBehaviour:
   crouchResizePercentage: 0.5
   crouchMovementSpeed: 5
   balanceAmount: 1
-  balanceRechargeRate: 0.5
+  balanceRechargeRate: 0.575
   unbalancePercentageRate: 0.414
   unbalanceSpeedInfluence: 0.86
 --- !u!114 &1176570689
@@ -422,6 +422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fdc38b4689f5a43bfef0fdf555add9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normalPhysics: {fileID: 6200000, guid: fd78eb5513ebf8141961c994f9eff6dd, type: 2}
+  slopePhysics: {fileID: 6200000, guid: 3508ab4fbe8f5944d96c669dac87d9e4, type: 2}
 --- !u!114 &8504988797918720915
 MonoBehaviour:
   m_ObjectHideFlags: 0

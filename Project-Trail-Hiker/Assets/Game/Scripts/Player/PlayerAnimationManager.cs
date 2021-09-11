@@ -23,7 +23,7 @@ namespace Game.Scripts.Player
         // Update is called once per frame
         void Update()
         {
-            if ((playerRb.velocity.x != 0.0f) && colliderManager.isGrounded && !colliderManager.isMovingDown && !colliderManager.isMovingUp)
+            if ((playerRb.velocity.x > 0.1f || playerRb.velocity.x < -0.1f ) && colliderManager.isGrounded)
             {
                 animator.SetBool(AnimationKeys.IsWalking, true);
             } else { animator.SetBool(AnimationKeys.IsWalking, false); }
