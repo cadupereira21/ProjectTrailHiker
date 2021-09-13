@@ -18,7 +18,7 @@ namespace Game.Scripts.Player
 
         public int PlayerDirection { private set; get; } = 1;
 
-        private float inputAverageTime = 0f;
+        public float inputAverageTime = 0f;
         private float maxSpeed = 10f;
         private float movementTimer = -1f;
 
@@ -73,9 +73,16 @@ namespace Game.Scripts.Player
         
         public float SlopeSpeed => slopeSpeed;
         public float UnbalancePercentageRate => unbalancePercentageRate;
+
+        // public float VelocidadeLenta => velocidadeLenta;
+        //
+        // public float VelocidadeMedia => velocidadeMédia;
+        //
+        // public float VelocidadeSuperAlta => velocidadeSuperAlta;
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // Start is called before the first frame update
+        
         public void Start()
         {
             playerRb = GetComponent<Rigidbody2D>();

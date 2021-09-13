@@ -36,3 +36,6 @@ Today I improved the QTE system with a responsive UI and improved the movement m
 
 ## Day 11 - 11/09
 Today I improved the slope QTE Physics, as well as fixed a bug in the walking animation while on a slope. I also added the company and game logo to the initial scene
+
+## Day 12 - 13/09
+Today I implemented our footsteps sfx and ambient sound. It still need improvement, but I will wait 'till ww have more environment art, so I can implement all music, audio and sfx organically with the environment and game art
