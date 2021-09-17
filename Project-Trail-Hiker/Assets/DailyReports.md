@@ -42,3 +42,6 @@ Today I implemented our footsteps sfx and ambient sound. It still need improveme
 
 ## Day 12 - 16/09
 Today I implemented something to deal with all my player states (they were kinda off their class). I also implemented a productionCamera, which we can use to produce some GIFs and videos about the gameplay and fill our pitch presentation. I also started to model the project, to see if I can maake a better and more efficient code :) I'm not finished yet, but I can implement some great changes :)
+
+## Day 13 - 17/09
+I finished the class diagram for the project. I implemented some root scripts for the player and UI.
