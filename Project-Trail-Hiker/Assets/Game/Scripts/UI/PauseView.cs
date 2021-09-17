@@ -1,27 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Game.Scripts.GameManager;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseView : MonoBehaviour
+namespace Game.Scripts.UI
 {
-    GameManager gameManager;
-
-    void Start()
+    public class PauseView : Ui
     {
-        gameManager = FindObjectOfType<GameManager>();
-    }
+        //private GameManager.GameManager gameManager;
 
-    public void ResumeButtonPressed()
-    {
-        gameManager.GameStart();
-        this.gameObject.SetActive(false);
-    }
+        void Start()
+        {
+            //gameManager = FindObjectOfType<GameManager.GameManager>();
+        }
 
-    public void QuitButtonPressed()
-    {
-        SceneManager.LoadScene("InitialScene");
+        public void ResumeButtonPressed()
+        {
+            GameManager.GameStart();
+            this.gameObject.SetActive(false);
+        }
+
+        public void QuitButtonPressed()
+        {
+            SceneManager.LoadScene("InitialScene");
+        }
     }
 }
 

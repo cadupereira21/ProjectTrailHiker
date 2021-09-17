@@ -1,36 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Game.Scripts.GameManager;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
-public class GameOverView : MonoBehaviour
+namespace Game.Scripts.UI
 {
-    ScoreManager scoreManager;
-    GameManager gameManager;
-
-    public TextMeshProUGUI timeScore;
-    public TextMeshProUGUI starScore;
-
-    public void Start()
+    public class GameOverView : Ui
     {
-        scoreManager = FindObjectOfType<ScoreManager>();
-        gameManager = FindObjectOfType<GameManager>();
+        // private ScoreManager scoreManager;
+        // private GameManager.GameManager gameManager;
 
-        starScore.text = scoreManager.starNumber.ToString();
-        timeScore.text = scoreManager.clockNumber.ToString();
-    }
+        public TextMeshProUGUI timeScore;
+        public TextMeshProUGUI starScore;
 
-    public void TryAgainButtonPressed()
-    {
-        gameObject.SetActive(false);
-        gameManager.GameStart();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        public void Start()
+        {
+            // scoreManager = FindObjectOfType<ScoreManager>();
+            // gameManager = FindObjectOfType<GameManager.GameManager>();
 
-    }
+            starScore.text = ScoreManager.starNumber.ToString();
+            timeScore.text = ScoreManager.clockNumber.ToString();
+        }
 
-    public void QuitButtonPressed(){
-        SceneManager.LoadScene("InitialScene");    
+        public void TryAgainButtonPressed()
+        {
+            gameObject.SetActive(false);
+            GameManager.GameStart();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        }
+
+        public void QuitButtonPressed(){
+            SceneManager.LoadScene("InitialScene");    
+        }
     }
 }

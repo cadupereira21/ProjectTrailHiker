@@ -2382,10 +2382,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1717024026564946115, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
-      propertyPath: footstepsVolume
-      value: 0.5
-      objectReference: {fileID: 0}
+    - target: {fileID: 6929687196217421595, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+      propertyPath: PlayerRb
+      value: 
+      objectReference: {fileID: 1396382320}
     - target: {fileID: 8835070285861265385, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2436,6 +2436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+--- !u!50 &1396382320 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 8835070285861265397, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+  m_PrefabInstance: {fileID: 1394601565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1406676832
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Game.Scripts.Player
 {
-    public class PlayerAudio : MonoBehaviour
+    public class PlayerAudio : Player
     {
         private AudioManager audioManager;
-        private Rigidbody2D player;
+        //private Rigidbody2D player;
         private PlayerMovementController playerMovement;
+        //private PlayerStateManager playerState;
 
         [Range(0.0f, 1.0f)]
         [SerializeField] private float footstepsVolume;
@@ -16,8 +17,9 @@ namespace Game.Scripts.Player
         void Start()
         {
             audioManager = FindObjectOfType<AudioManager>();
-            player = GetComponent<Rigidbody2D>();
+            //player = GetComponent<Rigidbody2D>();
             playerMovement = GetComponent<PlayerMovementController>();
+            //playerState = GetComponent<PlayerStateManager>();
             
             audioManager.Play(GameSounds.Pegada2);
             audioManager.SetVolume(GameSounds.Pegada2, 0.0f);
@@ -51,7 +53,7 @@ namespace Game.Scripts.Player
                     break;
             }
 
-            if ((player.velocity.x > 0.1f || player.velocity.x < -0.1f) && !playerMovement.isFalling)
+            if ((PlayerRb.velocity.x > 0.1f || PlayerRb.velocity.x < -0.1f) && !StateManager.IsFalling)
             {
                 audioManager.SetVolume(GameSounds.Pegada2, footstepsVolume);
             }

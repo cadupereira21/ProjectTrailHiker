@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI
 {
-    public class Hud : MonoBehaviour
+    public class Hud : Ui
     {
         public TextMeshProUGUI minutesLabel;
         public TextMeshProUGUI secondsLabel;
@@ -22,27 +22,27 @@ namespace Game.Scripts.UI
         public GameObject[] qteButtons;
 
         private Clock clock;
-        private ScoreManager scoreManager;
+        //private ScoreManager scoreManager;
         private PlayerMovementController playerMovement;
-        private PlayerColliderManager playerCollider;
+        //private PlayerColliderManager playerCollider;
 
         private float progressPercentage = 0;
 
         private void Start()
         {
-            scoreManager = FindObjectOfType<ScoreManager>();
+            //scoreManager = FindObjectOfType<ScoreManager>();
             clock = FindObjectOfType<Clock>();
             playerMovement = FindObjectOfType<PlayerMovementController>();
-            playerCollider = FindObjectOfType<PlayerColliderManager>();
+            //playerCollider = FindObjectOfType<PlayerColliderManager>();
         }
 
         private void Update()
         {
             minutesLabel.text = clock.Minutes.ToString("00");
             secondsLabel.text = clock.Seconds.ToString("00");
-            accidentsLabel.text = scoreManager.fallNumber.ToString();
+            accidentsLabel.text = ScoreManager.fallNumber.ToString();
 
-            switch (scoreManager.clockNumber)
+            switch (ScoreManager.clockNumber)
             {
                 case 2:
                     clockMiss[clockMiss.Length - 1].SetActive(true);
@@ -52,7 +52,7 @@ namespace Game.Scripts.UI
                     break;
                 default:
                 {
-                    if(scoreManager.clockNumber == 1)
+                    if(ScoreManager.clockNumber == 1)
                     {
                         clockMiss[clockMiss.Length - 3].SetActive(true);
                     }
@@ -61,7 +61,7 @@ namespace Game.Scripts.UI
                 }
             }
 
-            switch (scoreManager.starNumber)
+            switch (ScoreManager.starNumber)
             {
                 case 2:
                     starMiss[0].SetActive(true);

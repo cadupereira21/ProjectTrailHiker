@@ -6,24 +6,21 @@ namespace Game.Scripts.Player
     {
         public const string IsWalking = "isWalking";
     }
-    public class PlayerAnimationManager : MonoBehaviour
+    public class PlayerAnimationManager : Player
     {
-        private PlayerColliderManager colliderManager;
-        private Rigidbody2D playerRb;
         private Animator animator;
-        
+
         // Start is called before the first frame update
-        void Awake()
+        protected override void Awake()
         {
-            playerRb = GetComponent<Rigidbody2D>();
+            base.Awake();
             animator = GetComponent<Animator>();
-            colliderManager = FindObjectOfType<PlayerColliderManager>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if ((playerRb.velocity.x > 0.1f || playerRb.velocity.x < -0.1f ) && colliderManager.isGrounded)
+            if ((PlayerRb.velocity.x > 0.1f || PlayerRb.velocity.x < -0.1f) && StateManager.IsGrounded)
             {
                 animator.SetBool(AnimationKeys.IsWalking, true);
             } else { animator.SetBool(AnimationKeys.IsWalking, false); }

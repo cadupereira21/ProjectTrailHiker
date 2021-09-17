@@ -4,68 +4,70 @@ using UnityEngine;
 
 namespace Game.Scripts.Player
 {
-   public class QteSystem : MonoBehaviour
+   public class QteSystem : Player
    {
       public PhysicsMaterial2D normalPhysics;
       public PhysicsMaterial2D slopePhysics;
       
-      private Rigidbody2D player;
-      private PlayerColliderManager colliderManager;
+      //private Rigidbody2D player;
+      //private PlayerColliderManager colliderManager;
       private PlayerMovementController playerMovement;
-      private PlayerInputManager inputManager;
+      //private PlayerInputManager inputManager;
       private Hud hud;
+      //private PlayerStateManager playerState;
 
       private bool isOnObstacleQte = false;
       private void Start()
       {
-         colliderManager = FindObjectOfType<PlayerColliderManager>();
-         player = GetComponent<Rigidbody2D>();
+         //colliderManager = FindObjectOfType<PlayerColliderManager>();
+         //player = GetComponent<Rigidbody2D>();
          playerMovement = GetComponent<PlayerMovementController>();
-         inputManager = GetComponent<PlayerInputManager>();
+         //inputManager = GetComponent<PlayerInputManager>();
          hud = FindObjectOfType<Hud>();
+         //playerState = GetComponent<PlayerStateManager>();
       }
 
       private void Update()
       {
-         if (!colliderManager.isMovingDown && !colliderManager.isMovingUp && !colliderManager.needsToJump)
+         if (!StateManager.IsMovingDown && !StateManager.IsMovingUp && !StateManager.NeedsToJump)
          {
             isOnObstacleQte = false;
             StopCoroutine(SlopeQte(true));
             StopCoroutine(SlopeQte(false));
             hud.HideQTEButton("S");
             hud.HideQTEButton("W");
-            player.sharedMaterial = normalPhysics;
+            PlayerRb.sharedMaterial = normalPhysics;
             return;
          }
          
-         player.sharedMaterial = slopePhysics;
+         PlayerRb.sharedMaterial = slopePhysics;
 
-         if (colliderManager.isMovingUp)
+         if (StateManager.IsMovingUp)
          {
             StartCoroutine(SlopeQte(true));
          }
 
-         if (colliderManager.isMovingDown)
+         if (StateManager.IsMovingDown)
          {
             StartCoroutine(SlopeQte(false));
          }
 
-         if (colliderManager.needsToJump && !isOnObstacleQte)
+         if (StateManager.NeedsToJump && !isOnObstacleQte)
          {
             isOnObstacleQte = true;
             StartCoroutine(ObstacleQte());
          }
 
-         if (player.velocity.x < 0)
+         if (PlayerRb.velocity.x < 0)
          {
-            player.velocity = Vector2.zero;
+            PlayerRb.velocity = Vector2.zero;
          }
-         else if(!colliderManager.needsToJump)
+         else if(!StateManager.NeedsToJump)
          {
             playerMovement.ApplyDeceleration();
          }
 
-         if (colliderManager.needsToJump && Mathf.Approximately(player.velocity.x, 0))
+         if (StateManager.NeedsToJump && Mathf.Approximately(PlayerRb.velocity.x, 0))
          {
             StartCoroutine(GetOutOfObstacleQte());
          }
@@ -101,9 +103,9 @@ namespace Game.Scripts.Player
 
          if (isButtonPressed && (Input.GetKeyDown(buttonNeeded1) || Input.GetKeyDown(buttonNeeded2)))
          {
-            if (playerMovement.balanceAmount > 0 && !playerMovement.isFalling)
+            if (playerMovement.balanceAmount > 0 && !StateManager.IsFalling)
             {
-               player.velocity = new Vector2(playerMovement.SlopeSpeed, 0f);
+               PlayerRb.velocity = new Vector2(playerMovement.SlopeSpeed, 0f);
                playerMovement.balanceAmount -= playerMovement.UnbalancePercentageRate;
                isButtonPressed = false;  
             }
@@ -120,15 +122,15 @@ namespace Game.Scripts.Player
       {
          hud.ShowQTEButton("W");
          yield return new WaitForSeconds(0.12f);
-         inputManager.aWasPressed = false;
-         inputManager.dWasPressed = false;
+         InputManager.aWasPressed = false;
+         InputManager.dWasPressed = false;
          
          bool isButtonPressed = false;
          bool isRightButton = false;
 
          while (!isButtonPressed)
          {
-            if (!colliderManager.needsToJump)
+            if (!StateManager.NeedsToJump)
             {
                isRightButton = false;
                Debug.Log("Voce nao apertou nenhum botao!");
@@ -139,7 +141,7 @@ namespace Game.Scripts.Player
                isButtonPressed = true;
             }
             
-            if (isButtonPressed && inputManager.IsJumpButtonDown())
+            if (isButtonPressed && InputManager.IsJumpButtonDown())
             {
                Debug.Log("Botao certo!");
                isRightButton = true;
@@ -159,11 +161,11 @@ namespace Game.Scripts.Player
             case true: Debug.Log("Botao Certo!");
                break;
             case false: Debug.Log("Botao Errado!");
-               inputManager.fall = true;
+               InputManager.fall = true;
                break;
          }
 
-         while (colliderManager.needsToJump)
+         while (StateManager.NeedsToJump)
          {
             yield return null;
          }
@@ -174,9 +176,9 @@ namespace Game.Scripts.Player
 
       private IEnumerator GetOutOfObstacleQte()
       {
-         while (colliderManager.needsToJump)
+         while (StateManager.NeedsToJump)
          {
-            player.velocity += Vector2.right.normalized*Time.deltaTime*15;
+            PlayerRb.velocity += Vector2.right.normalized*Time.deltaTime*15;
             yield return null;
          }
          StopCoroutine(GetOutOfObstacleQte());
