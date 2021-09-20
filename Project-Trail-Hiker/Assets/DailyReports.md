@@ -45,3 +45,6 @@ Today I implemented something to deal with all my player states (they were kinda
 
 ## Day 13 - 17/09
 I finished the class diagram for the project. I implemented some root scripts for the player and UI.
+
+## Day 14 - 20/09
+Today I started implementing the level selector UI
