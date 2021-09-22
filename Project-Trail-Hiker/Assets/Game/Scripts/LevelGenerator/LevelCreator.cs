@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public struct LevelNames
 {
-    public const string Level1 = "Level_1";
+    public const string Fase1 = "Fase_1";
 }
 
 public class LevelCreator : MonoBehaviour
@@ -24,7 +24,7 @@ public class LevelCreator : MonoBehaviour
     {
         switch (currentLevel)
         {
-            case LevelNames.Level1:
+            case LevelNames.Fase1:
                 CreateTestLevel();
                 break;
             default:

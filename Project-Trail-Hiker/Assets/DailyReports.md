@@ -48,3 +48,6 @@ I finished the class diagram for the project. I implemented some root scripts fo
 
 ## Day 14 - 20/09
 Today I started implementing the level selector UI
+
+# Day 15 - 22/09
+Today I finished the initial menu UI

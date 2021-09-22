@@ -13,11 +13,6 @@ namespace Game.Scripts.UI
             Debug.Log("Saindo");
         }
 
-        public void FaseButtonClicked(int fase)
-        {
-            SceneManager.LoadScene("Level_" + fase);
-        }
-
         public void PlayButtonPressed()
         {
             ui[0].SetActive(false);

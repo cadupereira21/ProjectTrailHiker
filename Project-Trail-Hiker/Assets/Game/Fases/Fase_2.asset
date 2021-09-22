@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a2f31d62fbc24e669a51322015be8900, type: 3}
-  m_Name: Fase_1
+  m_Name: Fase_2
   m_EditorClassIdentifier: 
-  faseName: "Chapada dos Guimar\xE3es"
-  number: 1
-  dificulty: 2
-  faseImage: {fileID: 21300000, guid: 1d936902b92248043b9a5d27739f7f6c, type: 3}
-  maxTimeScore: 010000001e000000
-  averageTimeScore: 030000001e000000
-  minTimeScore: 0500000000000000
-  maxStarScore: 3
-  averageStarScore: 7
-  minStarScore: 10
+  faseName: Vila Bela
+  number: 2
+  dificulty: 3
+  faseImage: {fileID: 21300000, guid: a1dcb09a1a2d80d4c9715977f533531e, type: 3}
+  maxTimeScore: 0100000000000000
+  averageTimeScore: 0200000000000000
+  minTimeScore: 0400000000000000
+  maxStarScore: 2
+  averageStarScore: 6
+  minStarScore: 9
   necessaryItens: []

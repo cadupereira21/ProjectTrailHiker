@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
+using UnityEngine.UI;
 
 namespace Game.Scripts.UI
 {
@@ -12,6 +14,8 @@ namespace Game.Scripts.UI
         [Range(1, 5)]
         [Tooltip("Um número de 1 a 5 representando o nível de dificuldade da fase (representado por estrelas)")]
         [SerializeField] private int dificulty = 0;
+
+        [SerializeField] private Sprite faseImage = null;
         
         [Header("Pontuação de Tempo")]
         [Tooltip("Elemento 1 = Minutos | Elemento 2 = Segundos")]
@@ -32,6 +36,7 @@ namespace Game.Scripts.UI
         public string FaseName => faseName;
         public int Number => number;
         public int Dificulty => dificulty;
+        public Sprite FaseImage => faseImage;
         public int[] MaxTimeScore => maxTimeScore;
         public int[] AverageTimeScore => averageTimeScore;
         public int[] MinTimeScore => minTimeScore;
