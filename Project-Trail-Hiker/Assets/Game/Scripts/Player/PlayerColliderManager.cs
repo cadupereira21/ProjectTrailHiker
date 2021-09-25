@@ -12,20 +12,20 @@ namespace Game.Scripts.Player
         [SerializeField] private LayerMask whatIsSlopeDown;
         [SerializeField] private LayerMask whatIsGameOverTrigger;
         [SerializeField] private LayerMask whatIsObstacleQteTrigger;
-
-        //public bool isGrounded;
-        //public bool isMovingDown;
-       //public bool isMovingUp;
+        private new BoxCollider2D playerCollider;
+        
         public bool isGameOver;
-        //public bool needsToJump;
+
+        private void Awake()
+        {
+            playerCollider = GetComponentInParent<BoxCollider2D>();
+        }
 
         private void Update()
         {
-            //isGrounded = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsGround);
-            //isMovingDown = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsSlopeDown);
-            //isMovingUp = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsSlopeUp);
             isGameOver = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsGameOverTrigger);
-            //needsToJump = Physics2D.OverlapCircle(gameObject.transform.position, .25f, whatIsObstacleQteTrigger);
+
+            this.gameObject.transform.position = playerCollider.bounds.min;
         }
 
         public bool CheckGrounded()

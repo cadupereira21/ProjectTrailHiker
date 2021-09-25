@@ -5,6 +5,7 @@ namespace Game.Scripts.Player
 {
     public class PlayerAudio : Player
     {
+        private GameManager.GameManager gameManager;
         private AudioManager audioManager;
         //private Rigidbody2D player;
         private PlayerMovementController playerMovement;
@@ -20,6 +21,7 @@ namespace Game.Scripts.Player
             //player = GetComponent<Rigidbody2D>();
             playerMovement = GetComponent<PlayerMovementController>();
             //playerState = GetComponent<PlayerStateManager>();
+            gameManager = FindObjectOfType<GameManager.GameManager>();
             
             audioManager.Play(GameSounds.Pegada2);
             audioManager.SetVolume(GameSounds.Pegada2, 0.0f);
@@ -28,6 +30,12 @@ namespace Game.Scripts.Player
         // Update is called once per frame
         void Update()
         {
+            if (!gameManager.IsGameRunning)
+            {
+                audioManager.SetVolume(GameSounds.Pegada2, 0.0f);
+                return;
+            }
+            
             if (audioManager == null)
                 audioManager = FindObjectOfType<AudioManager>();
 

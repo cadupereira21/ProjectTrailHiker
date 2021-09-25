@@ -51,3 +51,6 @@ Today I started implementing the level selector UI
 
 # Day 15 - 22/09
 Today I finished the initial menu UI
+
+# Day 16 - 23/09
+Today I implemented the fall animation, with some changes on the code. I also prototyped the Game Over interface :D

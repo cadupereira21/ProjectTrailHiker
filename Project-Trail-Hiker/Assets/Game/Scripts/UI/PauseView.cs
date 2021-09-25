@@ -20,6 +20,7 @@ namespace Game.Scripts.UI
 
         public void QuitButtonPressed()
         {
+            Time.timeScale = 1.0f;
             SceneManager.LoadScene("InitialScene");
         }
     }

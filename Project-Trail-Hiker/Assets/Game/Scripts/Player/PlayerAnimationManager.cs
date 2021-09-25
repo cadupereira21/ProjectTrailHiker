@@ -5,6 +5,7 @@ namespace Game.Scripts.Player
     public struct AnimationKeys
     {
         public const string IsWalking = "isWalking";
+        public const string IsFalling = "isFalling";
     }
     public class PlayerAnimationManager : Player
     {
@@ -24,6 +25,8 @@ namespace Game.Scripts.Player
             {
                 animator.SetBool(AnimationKeys.IsWalking, true);
             } else { animator.SetBool(AnimationKeys.IsWalking, false); }
+
+            animator.SetBool(AnimationKeys.IsFalling, StateManager.IsFalling);
         }
     }
 }

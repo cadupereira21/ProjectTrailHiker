@@ -65,9 +65,23 @@ namespace Game.Scripts.Player
             }
         }
 
-        public void SetState(bool state, bool boolean)
+        public void SetState(string state, bool boolean)
         {
-            state = boolean;
+            switch (state)
+            {
+                case "isFalling":
+                    isFalling = boolean;
+                    break;
+                case "isCrouched":
+                    isCrouched = boolean;
+                    break;
+                case "isFlipping":
+                    isFlipping = boolean;
+                    break;
+                default:
+                    Debug.LogError("Could not find " + state);
+                    break;
+            }
         }
     }
 }

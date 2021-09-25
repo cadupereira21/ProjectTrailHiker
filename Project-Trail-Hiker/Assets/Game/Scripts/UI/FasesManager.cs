@@ -3,6 +3,7 @@ using TMPro;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Game.Scripts.UI
@@ -18,10 +19,25 @@ namespace Game.Scripts.UI
         [SerializeField] private TextMeshProUGUI[] timeScores = new TextMeshProUGUI[3];
         [SerializeField] private TextMeshProUGUI[] starNumber = new TextMeshProUGUI[3];
 
+        [SerializeField] private RectTransform levelDetailsField = null;
+        [SerializeField] private RectTransform map;
+
+        private int levelSelected = 0;
+
         public void OnFaseClick(int faseNumber)
         {
-            //Play Animation
-            //Draw UI
+
+            Debug.Log("Cliquei na fase " + faseNumber);
+
+            if (!levelDetailsField.gameObject.activeInHierarchy)
+            {
+                levelDetailsField.gameObject.SetActive(true);   
+            }
+            
+            Animate();
+
+            levelSelected = faseNumber;
+            
             title.text = fase[faseNumber - 1].FaseName.ToUpper();
             this.faseNumber.text = "LEVEL " + fase[faseNumber - 1].Number;
             faseImage.sprite = fase[faseNumber - 1].FaseImage;
@@ -66,8 +82,15 @@ namespace Game.Scripts.UI
 
         public void OnPlayClick()
         {
-            var faseNumber = Int32.Parse(this.faseNumber.text.Substring(5));
-            SceneManager.LoadScene("Fase_" + faseNumber);
+            //levelDetailsField.SetActive(false);
+            SceneManager.LoadScene("Fase_" + levelSelected);
+        }
+
+        private void Animate()
+        {
+            map.anchoredPosition = new Vector2(332, -26);
+            map.localScale = new Vector3(0.35f, 0.35f, 0);
+            levelDetailsField.anchoredPosition = new Vector2(-300.0f,0);
         }
     }
 }

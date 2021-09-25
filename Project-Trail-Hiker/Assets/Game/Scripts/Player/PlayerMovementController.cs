@@ -137,7 +137,7 @@ namespace Game.Scripts.Player
                 scoreManager.fallNumber += 1;
             }
 
-            // Pulo
+            /* Pulo
             if (InputManager.IsJumpButtonDown() && StateManager.CanJump && !StateManager.IsOnQte)
             {
                 Jump();
@@ -157,7 +157,7 @@ namespace Game.Scripts.Player
             {
                 Debug.Log("Desagachei");
                 Uncrouch();
-            }
+            }*/
 
             // Andar
             // Calculando a média entre os dois cliques
@@ -302,7 +302,7 @@ namespace Game.Scripts.Player
             {
                 collider.size = new Vector2(collider.size.x, collider.size.y * crouchResizePercentage);
                 collider.offset = new Vector2(collider.offset.x, collider.offset.y - 0.45f);
-                StateManager.SetState(StateManager.IsCrouched, true);
+                StateManager.SetState("isCrouched", true);
                 //canJump = false;
                 InputManager.aWasPressed = false;
                 InputManager.dWasPressed = false;
@@ -313,15 +313,16 @@ namespace Game.Scripts.Player
         {
             collider.offset = normalColliderOffset;
             collider.size = normalColliderSize;
-            StateManager.SetState(StateManager.IsCrouched, false);
+            StateManager.SetState("isCrouched", false);
             //canJump = true;
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
         }
 
+        // ReSharper disable once FunctionRecursiveOnAllPaths
         private IEnumerator Fall()
         {
-            StateManager.SetState(StateManager.IsFalling, true);
+            StateManager.SetState("isFalling", true);
             
             while(PlayerRb.velocity.x != 0)
             {
@@ -330,7 +331,7 @@ namespace Game.Scripts.Player
                 //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
                 yield return null;
             }
-            StateManager.SetState(StateManager.IsFalling, false);
+            StateManager.SetState("isFalling", false);
 
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
@@ -341,7 +342,7 @@ namespace Game.Scripts.Player
 
         private IEnumerator Flipping()
         {
-            StateManager.SetState(StateManager.IsFlipping, true);
+            StateManager.SetState("isFlipping", true);
             while(!Mathf.Approximately(PlayerRb.velocity.x, 0))
             {
                 //targetVelocity = new Vector2( maxSpeed * -PlayerDirection, playerRb.velocity.y);
@@ -349,7 +350,7 @@ namespace Game.Scripts.Player
                 //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
                 yield return null;
             }
-            StateManager.SetState(StateManager.IsFlipping, true);
+            StateManager.SetState("isFlipping", true);
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
             //balanceAmount = 1;
