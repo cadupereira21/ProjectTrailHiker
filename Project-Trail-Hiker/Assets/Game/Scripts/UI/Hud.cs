@@ -42,7 +42,7 @@ namespace Game.Scripts.UI
             secondsLabel.text = clock.Seconds.ToString("00");
             accidentsLabel.text = ScoreManager.fallNumber.ToString();
 
-            switch (ScoreManager.clockNumber)
+            switch (ScoreManager.ClockNumber)
             {
                 case 2:
                     clockMiss[clockMiss.Length - 1].SetActive(true);
@@ -52,7 +52,7 @@ namespace Game.Scripts.UI
                     break;
                 default:
                 {
-                    if(ScoreManager.clockNumber == 1)
+                    if(ScoreManager.ClockNumber == 1)
                     {
                         clockMiss[clockMiss.Length - 3].SetActive(true);
                     }
@@ -61,7 +61,7 @@ namespace Game.Scripts.UI
                 }
             }
 
-            switch (ScoreManager.starNumber)
+            switch (ScoreManager.StarNumber)
             {
                 case 2:
                     starMiss[0].SetActive(true);

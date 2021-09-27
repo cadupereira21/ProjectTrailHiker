@@ -2145,6 +2145,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3764154466984657556, guid: 2daaef7faf9326e4d9966d47fa927145, type: 3}
+      propertyPath: fases.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3764154466984657556, guid: 2daaef7faf9326e4d9966d47fa927145, type: 3}
+      propertyPath: fases.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c085f5559f815b4f889089c0a33a4f6, type: 2}
+    - target: {fileID: 3764154466984657556, guid: 2daaef7faf9326e4d9966d47fa927145, type: 3}
+      propertyPath: fases.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a6147afb4c4d7ff4aa9235de26c3b673, type: 2}
     - target: {fileID: 3764154467502544164, guid: 2daaef7faf9326e4d9966d47fa927145, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -2382,6 +2394,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 245317129281789369, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+      propertyPath: bottles
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8835070285861265385, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2432,6 +2448,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+--- !u!114 &1394601566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 245317129281789369, guid: 44fd07e9158c0b0499251d483f3336c7, type: 3}
+  m_PrefabInstance: {fileID: 1394601565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a9b56a4b5b4f6594e1e46a268c1e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1406676832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,10 +2716,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverView
       objectReference: {fileID: 0}
-    - target: {fileID: 1586233625547507731, guid: 2efb355669c828a4da7a16560f445c23, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1586233625547507736, guid: 2efb355669c828a4da7a16560f445c23, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2777,6 +2800,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1586233625547507737, guid: 2efb355669c828a4da7a16560f445c23, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 1394601566}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2efb355669c828a4da7a16560f445c23, type: 3}
 --- !u!1001 &1689929414
@@ -3047,10 +3074,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5853699226319878144, guid: fb85899fecefa454fb59074ea6a60d06, type: 3}
-      propertyPath: obstacleGenerationPercentage
-      value: 95
-      objectReference: {fileID: 0}
     - target: {fileID: 5853699226319878145, guid: fb85899fecefa454fb59074ea6a60d06, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3455,10 +3478,6 @@ PrefabInstance:
     - target: {fileID: 1935122276810840884, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
       propertyPath: m_Name
       value: hud
-      objectReference: {fileID: 0}
-    - target: {fileID: 1935122276810840884, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1935122276810840895, guid: 7f5927ee703488c4f9352002c1965495, type: 3}
       propertyPath: m_Pivot.x

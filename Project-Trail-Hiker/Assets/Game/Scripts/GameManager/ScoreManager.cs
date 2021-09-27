@@ -1,27 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Game.Scripts.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ScoreManager : MonoBehaviour
+namespace Game.Scripts.GameManager
 {
-    // Primeira fase: 3 Relógios - 2m30 | 2 Relógios - 3m30 | 1 Relógio - 5m | 3 Estrelas - cair 2 vezes | 2 Estrelas - cair 5 vezes | 1 Estrela - cair 10 vezes
-    public Clock clock;
-
-    public int clockNumber { private set; get; } = 3;
-    public int starNumber { private set; get; } = 3;
-    public int fallNumber = 0;
-
-    // Update is called once per frame
-    public void Update()
+    public class ScoreManager : MonoBehaviour
     {
-        if(clock.Minutes < 2 || clock.Seconds < 30.0f) { clockNumber = 3; } 
-        else if(clock.Minutes < 3 || clock.Seconds < 30.0f) { clockNumber = 2; }
-        else if (clock.Minutes < 5) { clockNumber = 1; }
-        else { clockNumber = 0; }
+        // Primeira fase: 3 Relógios - 2m30 | 2 Relógios - 3m30 | 1 Relógio - 5m | 3 Estrelas - cair 2 vezes | 2 Estrelas - cair 5 vezes | 1 Estrela - cair 10 vezes
+        public Clock clock;
+        [SerializeField] private Fase[] fases;
 
-        if(fallNumber <= 2) { starNumber = 3; }
-        else if (fallNumber <= 5) { starNumber = 2; }
-        else if(fallNumber <= 10) { starNumber = 1;  }  
-        else { starNumber = 0; }
+        private int faseNumber;
+
+        public int ClockNumber { private set; get; } = 3;
+        public int StarNumber { private set; get; } = 3;
+        public int fallNumber = 0;
+
+        private void Start()
+        {
+            faseNumber = Int32.Parse(SceneManager.GetActiveScene().name.Substring(5));
+        }
+
+        // Update is called once per frame
+        public void Update()
+        {
+            if (fases == null)
+            {
+                Debug.LogWarning("variable fase is not set");
+                return;
+            }
+            if(clock.Minutes < fases[faseNumber-1].MaxTimeScore[0] || clock.Seconds < fases[faseNumber-1].MaxTimeScore[1]) { ClockNumber = 3; } 
+            else if(clock.Minutes < fases[faseNumber-1].AverageTimeScore[0] || clock.Seconds < fases[faseNumber-1].AverageTimeScore[1]) { ClockNumber = 2; }
+            else if (clock.Minutes < fases[faseNumber-1].MinTimeScore[0] || clock.Seconds < fases[faseNumber-1].MinTimeScore[1]) { ClockNumber = 1; }
+            else { ClockNumber = 0; }
+
+            if(fallNumber <= fases[faseNumber-1].MaxStarScore) { StarNumber = 3; }
+            else if (fallNumber <= fases[faseNumber-1].AverageStarScore) { StarNumber = 2; }
+            else if(fallNumber <= fases[faseNumber-1].MinStarScore) { StarNumber = 1;  }  
+            else { StarNumber = 0; }
+        }
     }
 }

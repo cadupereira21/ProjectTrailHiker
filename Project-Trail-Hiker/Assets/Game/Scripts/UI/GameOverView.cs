@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Scripts.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,34 +26,34 @@ namespace Game.Scripts.UI
         [SerializeField] private TextMeshProUGUI newTotalBottlesLabel;
         
         private int newTotalBottles;
-        private int oldTotalBottles;
+        //private int oldTotalBottles;
         [SerializeField] private TextMeshProUGUI levelNumber;
 
+        [SerializeField] private PlayerInventory playerInventory;
         public void Start()
         {
-            oldTotalBottles = PlayerPrefs.GetInt("Bottle");
-            
-            for (int i = 0; i < ScoreManager.clockNumber; i++)
+            //oldTotalBottles = playerInventory.Bottles;
+            for (int i = 0; i < ScoreManager.ClockNumber; i++)
                 clocks[i].gameObject.SetActive(true);
 
-            for (int i = 0; i < ScoreManager.starNumber; i++)
+            for (int i = 0; i < ScoreManager.StarNumber; i++)
                 stars[i].gameObject.SetActive(true);
+            
+            playerInventory.GainBottles((ScoreManager.ClockNumber + ScoreManager.StarNumber));
 
-            PlayerPrefs.SetInt("Bottle", oldTotalBottles + (ScoreManager.clockNumber + ScoreManager.starNumber));
-            newTotalBottles = PlayerPrefs.GetInt("Bottle");
+            //PlayerPrefs.SetInt("Bottle", oldTotalBottles + (ScoreManager.clockNumber + ScoreManager.starNumber));
+            newTotalBottles = playerInventory.Bottles;
             
             SetUiTexts();
         }
 
         private void SetUiTexts()
         {
-            newBottles.text = "+ " + (ScoreManager.clockNumber + ScoreManager.starNumber);
+            newBottles.text = "+ " + (ScoreManager.ClockNumber + ScoreManager.StarNumber);
             
             newTotalBottlesLabel.text = newTotalBottles.ToString();
 
             levelNumber.text = "LEVEL " + Int32.Parse(SceneManager.GetActiveScene().name.Substring(5)) + " COMPLETO!";
-            
-            PlayerPrefs.Save();
         }
 
         public void TryAgainButtonPressed()

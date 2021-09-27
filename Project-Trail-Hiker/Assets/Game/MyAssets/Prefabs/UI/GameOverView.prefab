@@ -363,7 +363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1586233625547507736
 RectTransform:
   m_ObjectHideFlags: 0
@@ -487,10 +487,11 @@ MonoBehaviour:
   stars:
   - {fileID: 7049478904409243219}
   - {fileID: 2017938224791152705}
-  - {fileID: 8625262825627781768}
+  - {fileID: 9155239328228837119}
   newBottles: {fileID: 4038315416223311085}
-  newTotalBottles: {fileID: 5621321596171078645}
+  newTotalBottlesLabel: {fileID: 5621321596171078645}
   levelNumber: {fileID: 7472087721358908991}
+  playerInventory: {fileID: 0}
 --- !u!1 &2017938224791152705
 GameObject:
   m_ObjectHideFlags: 0

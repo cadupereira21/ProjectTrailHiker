@@ -54,3 +54,6 @@ Today I finished the initial menu UI
 
 # Day 16 - 23/09
 Today I implemented the fall animation, with some changes on the code. I also prototyped the Game Over interface :D
+
+#Day 17 - 27/09
+Today I fixed both bugs that were open, and finished the implementation of the inventory system, now I just need to implement it's ui at the InitialScene

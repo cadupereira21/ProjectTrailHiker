@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402264aebf21dca4f99e08dcb5cf1a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstacleGenerationPercentage: 75
+  obstacleGenerationPercentage: 95
   initialLayerOrder: 200
   straightGround:
   - {fileID: 1564865754977858912, guid: 5babac556f393d24bb40cc7953d2f2ae, type: 3}
