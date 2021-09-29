@@ -16,6 +16,7 @@ namespace Game.Scripts.UI
         [SerializeField] private int dificulty = 0;
 
         [SerializeField] private Sprite faseImage = null;
+        [SerializeField] private bool isLocked;
         
         [Header("Pontuação de Tempo")]
         [Tooltip("Elemento 1 = Minutos | Elemento 2 = Segundos")]
@@ -44,7 +45,11 @@ namespace Game.Scripts.UI
         public int AverageStarScore => averageStarScore;
         public int MinStarScore => minStarScore;
         public string[] NecessaryItens => necessaryItens;
+        public bool IsLocked => isLocked;
 
-
+        public void Unlock()
+        {
+            isLocked = false;
+        }
     }
 }
