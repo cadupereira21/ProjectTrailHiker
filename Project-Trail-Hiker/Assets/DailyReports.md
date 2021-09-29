@@ -57,3 +57,6 @@ Today I implemented the fall animation, with some changes on the code. I also pr
 
 #Day 17 - 27/09
 Today I fixed both bugs that were open, and finished the implementation of the inventory system, now I just need to implement it's ui at the InitialScene
+
+# Day 18 - 29/09
+Today I tried to fix the level selector bug, but i couldn't figure out why the animation does not play when I quit the level. I also added the stand up animation. I started modelling our waterfall too :D
