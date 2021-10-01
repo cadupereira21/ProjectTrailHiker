@@ -60,3 +60,6 @@ Today I fixed both bugs that were open, and finished the implementation of the i
 
 # Day 18 - 29/09
 Today I tried to fix the level selector bug, but i couldn't figure out why the animation does not play when I quit the level. I also added the stand up animation. I started modelling our waterfall too :D
+
+# Day 19 - 01/10
+Today I finished the shader for the waterfall, so it's pretty much completed, just add some other particles when the scenario is ready and we'll have a gorgeous waterfall :D I wasn't able to fix the level selector animation bug, so i'm trying to reach out for people who could help me :)

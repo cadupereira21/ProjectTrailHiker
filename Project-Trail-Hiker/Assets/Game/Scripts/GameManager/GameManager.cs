@@ -59,7 +59,6 @@ namespace Game.Scripts.GameManager
 
         public void GameOver()
         {
-            
             Debug.Log("GameOver");
             isGameRunning = false;
             gameOverUI.gameObject.SetActive(true);

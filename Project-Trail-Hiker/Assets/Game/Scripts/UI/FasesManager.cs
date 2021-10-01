@@ -25,24 +25,15 @@ namespace Game.Scripts.UI
         [SerializeField] private RectTransform map;
 
         [Range(4.0f, 12.0f)]
-        [SerializeField] private float animationSpeed = 0.0f;
-
-        private new IEnumerator animation;
+        [SerializeField] private float animationSpeed = 7.5f;
 
         private int levelSelected = 0;
 
         public int LevelSelected => levelSelected;
 
-        private void Update()
-        {
-            if (animation == null)
-            {
-                animation = Animate();
-            }
-        }
-
         public void OnFaseClick(int faseNum)
         {
+            StopAllCoroutines();
 
             //Debug.Log("Cliquei na fase " + faseNumber);
 
@@ -52,10 +43,10 @@ namespace Game.Scripts.UI
             }
 
             // Funciona sem bug, porém sem animação
-            NewAnimate(); 
+            //NewAnimate(); 
             
             // Bugado, porém animado
-            //StartCoroutine(animation);
+            StartCoroutine(Animate());
 
             levelSelected = faseNum;
 
@@ -65,6 +56,8 @@ namespace Game.Scripts.UI
             this.faseNumber.text = "LEVEL " + fase[levelSelected - 1].Number;
             faseImage.sprite = fase[levelSelected - 1].FaseImage;
             
+            foreach (var t in stars)
+                t.SetActive(false);
 
             for (int i = 0; i < stars.Length; i++)
                 if (i < fase[levelSelected - 1].Dificulty)
@@ -89,7 +82,7 @@ namespace Game.Scripts.UI
         private IEnumerator Animate()
         {
             var t = 0.0f;
-            while (t < 1)
+            while (t<1)
             {
                 t = Time.deltaTime * animationSpeed;
                 
@@ -106,9 +99,7 @@ namespace Game.Scripts.UI
                 levelDetailsField.anchoredPosition = Vector2.Lerp(levelDetailsFieldPosition, newLevelDetailsFieldPosition, t);
                 yield return null;
             }
-            // map.anchoredPosition = new Vector2(332, -26);
-            // map.localScale = new Vector3(0.35f, 0.35f, 0);
-            // levelDetailsField.anchoredPosition = new Vector2(-300.0f,0);
+
             yield break;
         }
 

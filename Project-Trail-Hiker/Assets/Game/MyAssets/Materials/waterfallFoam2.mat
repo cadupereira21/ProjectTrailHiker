@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1769456405039497168
+--- !u!114 &-1165815633547072117
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: waterfall
-  m_Shader: {fileID: -6465566751694194690, guid: cb7a3bfd599943a4f837b2105724f586, type: 3}
+  m_Name: waterfallFoam2
+  m_Shader: {fileID: -6465566751694194690, guid: 2a0f8e32d08cbd144bcf4a998b3f4f7f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -61,13 +61,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_11F6630A: 2.65
-    - Vector1_7552D1D1: -0.28
-    - Vector1_8D79A024: 0
-    - Vector1_A40318CF: 2
-    - Vector1_E3920156: 1.3
-    - Vector1_E784BDD8: 4.76
-    - Vector1_F6E17A9A: 7.16
+    - Vector1_11F6630A: 1.16
+    - Vector1_7552D1D1: -0.42
+    - Vector1_8D79A024: 1
+    - Vector1_A40318CF: 1
+    - Vector1_E3920156: 0.93
+    - Vector1_E784BDD8: 4.23
+    - Vector1_F6E17A9A: 0.76
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -90,8 +90,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_11A5967: {r: 0.11691271, g: 1.423701, b: 2.2532265, a: 0}
-    - Vector2_472A786E: {r: 0, g: 0.45, b: 0, a: 0}
+    - Color_11A5967: {r: 0, g: 0.7238493, b: 1, a: 0}
+    - Vector2_472A786E: {r: 0, g: 0.65, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
