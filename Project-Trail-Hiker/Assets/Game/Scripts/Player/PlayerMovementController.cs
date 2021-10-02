@@ -251,7 +251,6 @@ namespace Game.Scripts.Player
 
         private void FlipDirection()
         {
-            
             PlayerRb.transform.localScale = new Vector3(-PlayerRb.transform.localScale.x, PlayerRb.transform.localScale.y, PlayerRb.transform.localScale.z);
             PlayerDirection = PlayerDirection == 1 ? -1 : 1;
             StartCoroutine(Flipping());
@@ -351,7 +350,7 @@ namespace Game.Scripts.Player
                 //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
                 yield return null;
             }
-            StateManager.SetState("isFlipping", true);
+            StateManager.SetState("isFlipping", false);
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
             //balanceAmount = 1;
