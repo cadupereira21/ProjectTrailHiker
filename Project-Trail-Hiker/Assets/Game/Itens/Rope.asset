@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c704dc9e3d424961ae405c6da2700c46, type: 3}
   m_Name: Rope
   m_EditorClassIdentifier: 
-  name: 
-  type: 0
-  price: 0
-  image: {fileID: 0}
+  name: Rope
+  type: 1
+  price: 10
+  image: {fileID: 21300000, guid: e068f02af7786484290cf9c792154446, type: 3}

@@ -7,6 +7,8 @@ namespace Game.Scripts.Player
 {
     public class PlayerInventory : MonoBehaviour
     {
+        private static PlayerInventory _instance;
+        
         private int bottles;
         private string equipedItem_Head;
         private string equipedItem_Body;
@@ -20,6 +22,16 @@ namespace Game.Scripts.Player
 
         private void Awake()
         {
+            if (_instance == null)
+                _instance = this;
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
+            
             CheckKeys();
             bottles = PlayerPrefs.GetInt("bottles");
             equipedItem_Head = PlayerPrefs.GetString("equipedItem_Head");

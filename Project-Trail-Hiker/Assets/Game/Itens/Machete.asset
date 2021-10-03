@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Machete
   type: 1
   price: 70
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: 5396f7c2c48f67640bd02fb8586c7099, type: 3}
