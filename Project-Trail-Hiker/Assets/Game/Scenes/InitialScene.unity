@@ -2836,7 +2836,7 @@ MonoBehaviour:
   playButton: {fileID: 1136437734}
   levelDetailsField: {fileID: 203437397}
   map: {fileID: 1958704604}
-  animationSpeed: 7.5
+  animationDuration: 0.59
 --- !u!114 &978698553
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using TMPro;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Game.Scripts.UI
 {
@@ -23,30 +22,33 @@ namespace Game.Scripts.UI
 
         [SerializeField] private RectTransform levelDetailsField = null;
         [SerializeField] private RectTransform map;
+        // private Vector2 levelDetailsFieldPosition;
+        // private Vector2 mapPosition;
+        // private Vector2 mapScale;
 
-        [Range(4.0f, 12.0f)]
-        [SerializeField] private float animationSpeed = 7.5f;
+        [Range(0.0f, 5.0f)]
+        [SerializeField] private float animationDuration = 1.0f;
 
         private int levelSelected = 0;
 
         public int LevelSelected => levelSelected;
 
+        private void Start()
+        {
+            DOTween.Init(true, true, LogBehaviour.Verbose);
+            // levelDetailsFieldPosition = levelDetailsField.anchoredPosition;
+            // mapPosition = map.anchoredPosition;
+            // mapScale = map.localScale;
+        }
+
         public void OnFaseClick(int faseNum)
         {
-            StopAllCoroutines();
-
-            //Debug.Log("Cliquei na fase " + faseNumber);
-
             if (!levelDetailsField.gameObject.activeInHierarchy)
             {
                 levelDetailsField.gameObject.SetActive(true);   
             }
 
-            // Funciona sem bug, porém sem animação
-            //NewAnimate(); 
-            
-            // Bugado, porém animado
-            StartCoroutine(Animate());
+            Animate();
 
             levelSelected = faseNum;
 
@@ -74,33 +76,16 @@ namespace Game.Scripts.UI
 
         public void OnPlayClick()
         {
-            //levelDetailsField.SetActive(false);
-            //animation.Reset();
             SceneManager.LoadScene("Fase_" + levelSelected);
         }
 
-        private IEnumerator Animate()
+        private void Animate()
         {
-            var t = 0.0f;
-            while (t<1)
-            {
-                t = Time.deltaTime * animationSpeed;
-                
-                var mapPosition = map.anchoredPosition;
-                var mapScale = map.localScale;
-                var levelDetailsFieldPosition = levelDetailsField.anchoredPosition;
-                
-                var newMapPosition = new Vector2(332, -26);
-                var newMapScale = new Vector3(0.35f, 0.35f, 0);
-                var newLevelDetailsFieldPosition = new Vector2(-300.0f,0);
-
-                map.anchoredPosition = Vector2.Lerp(mapPosition, newMapPosition, t);
-                map.localScale = Vector3.Lerp(mapScale, newMapScale, t);
-                levelDetailsField.anchoredPosition = Vector2.Lerp(levelDetailsFieldPosition, newLevelDetailsFieldPosition, t);
-                yield return null;
-            }
-
-            yield break;
+            Debug.Log(levelDetailsField.anchoredPosition + "\n" + map.anchoredPosition);
+            map.DOAnchorPos(new Vector2(332, -26), animationDuration);
+            map.DOScale(new Vector3(0.35f, 0.35f, 0), animationDuration);
+            levelDetailsField.DOAnchorPos(new Vector2(-300.0f, 0), animationDuration);
+            Debug.Log("Terminei de Animar");
         }
 
         private void NewAnimate()
