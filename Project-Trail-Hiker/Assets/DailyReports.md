@@ -66,3 +66,6 @@ Today I finished the shader for the waterfall, so it's pretty much completed, ju
 
 # Day 20 - 03/10
 Today I fixed the Level Selector animation bug :D I also started the store ui and scripts
+
+# Day 21 - 04/10
+Today I finished our store. THe only thing left to complete the initial scene, is to make the equip item system :D

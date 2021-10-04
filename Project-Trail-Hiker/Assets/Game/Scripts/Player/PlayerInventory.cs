@@ -8,6 +8,7 @@ namespace Game.Scripts.Player
     public class PlayerInventory : MonoBehaviour
     {
         private static PlayerInventory _instance;
+        private Itens itens;
         
         private int bottles;
         private string equipedItem_Head;
@@ -17,11 +18,17 @@ namespace Game.Scripts.Player
         private string equipedItem_Legs;
         private string equipedItem_Foot;
         private ArrayList boughtItens = new ArrayList();
+        private int numberOfBoughtItens;
 
         public int Bottles => bottles;
 
         private void Awake()
         {
+            // PlayerPrefs.DeleteKey("boughtItem_0");
+            // PlayerPrefs.DeleteKey("boughtItem_1");
+            // PlayerPrefs.DeleteKey("boughtItem_2");
+            // PlayerPrefs.DeleteKey("boughtItem_3");
+            
             if (_instance == null)
                 _instance = this;
             else
@@ -30,19 +37,13 @@ namespace Game.Scripts.Player
                 return;
             }
 
-            DontDestroyOnLoad(gameObject);
-            
-            CheckKeys();
-            bottles = PlayerPrefs.GetInt("bottles");
-            equipedItem_Head = PlayerPrefs.GetString("equipedItem_Head");
-            equipedItem_Body = PlayerPrefs.GetString("equipedItem_Body");
-            equipedItem_LeftHand = PlayerPrefs.GetString("equipedItem_LeftHand");
-            equipedItem_RightHand = PlayerPrefs.GetString("equipedItem_RightHand");
-            equipedItem_Legs = PlayerPrefs.GetString("equipedItem_Legs");
-            equipedItem_Foot = PlayerPrefs.GetString("equipedItem_Foot");
-            boughtItens = new ArrayList();
+            itens = FindObjectOfType<Itens>();
 
-            StartCoroutine(CheckBoughtItens());
+            DontDestroyOnLoad(gameObject);
+
+            AttAllAtributes();
+            
+            Debug.Log("Number of itens bought: " + boughtItens.Count + "\n Number of bottles owned: " + bottles);
         }
 
         private void CheckKeys()
@@ -83,20 +84,37 @@ namespace Game.Scripts.Player
             }
         }
 
+        private void CheckBoughtItens()
+        {
+            for (int i = 0; i < numberOfBoughtItens; i++)
+            {
+                var itenName = PlayerPrefs.GetString("boughtItem_" + i);
+                var allItens = itens.GetAllItens();
+
+                foreach (var VARIABLE in allItens)
+                {
+                    if (VARIABLE.Name.Equals(itenName))
+                        boughtItens.Add(VARIABLE);
+                }
+            }
+        }
+
         public void GainBottles(int quantity)
         {
             PlayerPrefs.SetInt("bottles", quantity+bottles);
             bottles = PlayerPrefs.GetInt("bottles");
 
             PlayerPrefs.Save();
+            Debug.Log("You gained " + quantity + " bottles!");
         }
 
-        public void SpendBottles(int quantity)
+        private void SpendBottles(int quantity)
         {
             PlayerPrefs.SetInt("bottles", bottles-quantity);
             bottles = PlayerPrefs.GetInt("bottles");
 
             PlayerPrefs.Save();
+            Debug.Log("You've spent " + quantity + " bottles");
         }
 
         public int EquipItem(Item item, string slotName)
@@ -127,6 +145,7 @@ namespace Game.Scripts.Player
                 equipedItem_Legs = PlayerPrefs.GetString("equipedItem_Legs");
                 equipedItem_Foot = PlayerPrefs.GetString("equipedItem_Foot");
                 PlayerPrefs.Save();
+                Debug.Log("You've equiped the item " + item.Name + " at the slot " + slotName);
                 return 1;
             }
 
@@ -134,47 +153,90 @@ namespace Game.Scripts.Player
             return -1;
         }
 
-        public void HasBoughtItem(Item item)
+        public void BuyItem(Item item)
         {
+            SpendBottles(item.Price);
+            
+            PlayerPrefs.SetString("boughtItem_" + boughtItens.Count, item.Name);
             boughtItens.Add(item);
-            PlayerPrefs.SetString("boughtItem_" + boughtItens.IndexOf(item), item.Name);
+            PlayerPrefs.SetInt("numberOfBoughtItens", PlayerPrefs.GetInt("numberOfBoughtItens") + 1);
             PlayerPrefs.Save();
-        }
-
-        private IEnumerator CheckBoughtItens()
-        {
-            int index = 0;
-            var itens = FindObjectsOfType<Item>();
-            Item item;
-
-            while (true)
-            {
-                if (PlayerPrefs.HasKey("boughtItem_" + index))
-                {
-                    item = null;
-                    
-                    foreach (var i in itens)
-                    {
-                        if (i.Name.Equals(PlayerPrefs.GetString("boughtItem_" + index)))
-                            item = i;
-                    }
-                    
-                    boughtItens.Add(item);
-                    index += 1;
-                    yield return null;
-                }
-                else
-                {
-                    Debug.Log("Number of itens bought: " + index);
-                    yield break;
-                }
-            }
+            Debug.Log("You've bought the " + item.Name + " you now have " + bottles + " bottles!");
         }
 
         public ArrayList GetAllBoughtItens()
         {
-            var boughtItensClone = (ArrayList) boughtItens.Clone();
-            return boughtItensClone;
+            return boughtItens;
+        }
+
+        public Item SearchBoughtItem(string itemName)
+        {
+            foreach (Item i in boughtItens)
+            {
+                if (i.Name.Equals(itemName))
+                {
+                    //Debug.Log("Found item " + itemName);
+                    return i;   
+                }
+            }
+
+            Debug.LogWarning("Could not find item with name \"" + itemName + "\" at " + boughtItens.GetType() + " boughItens!");
+            return null;
+        }
+
+        public Item[] GetAllEquipedItens()
+        {
+
+            var equipedItens = new Item[6];
+            var boughtItens = GetAllBoughtItens();
+
+            if (equipedItem_Body != "")
+            {
+                equipedItens[0] = SearchBoughtItem(equipedItem_Body);
+            }
+            
+            if (equipedItem_Legs != "")
+            {
+                equipedItens[1] = SearchBoughtItem(equipedItem_Legs);
+            }
+            
+            if (equipedItem_Foot != "")
+            {
+                equipedItens[2] = SearchBoughtItem(equipedItem_Foot);
+            }
+            
+            if (equipedItem_Head != "")
+            {
+                equipedItens[3] = SearchBoughtItem(equipedItem_Head);
+            }
+            
+            if (equipedItem_RightHand != "")
+            {
+                equipedItens[4] = SearchBoughtItem(equipedItem_RightHand);
+            }
+            
+            if (equipedItem_LeftHand != "")
+            {
+                equipedItens[5] = SearchBoughtItem(equipedItem_LeftHand);
+            }
+
+            Debug.Log(equipedItens);
+            return equipedItens;
+        }
+
+        private void AttAllAtributes()
+        {
+            CheckKeys();
+            bottles = PlayerPrefs.GetInt("bottles");
+            equipedItem_Head = PlayerPrefs.GetString("equipedItem_Head");
+            equipedItem_Body = PlayerPrefs.GetString("equipedItem_Body");
+            equipedItem_LeftHand = PlayerPrefs.GetString("equipedItem_LeftHand");
+            equipedItem_RightHand = PlayerPrefs.GetString("equipedItem_RightHand");
+            equipedItem_Legs = PlayerPrefs.GetString("equipedItem_Legs");
+            equipedItem_Foot = PlayerPrefs.GetString("equipedItem_Foot");
+            numberOfBoughtItens = PlayerPrefs.GetInt("numberOfBoughtItens");
+            boughtItens = new ArrayList();
+            CheckBoughtItens();
         }
     }
 }
