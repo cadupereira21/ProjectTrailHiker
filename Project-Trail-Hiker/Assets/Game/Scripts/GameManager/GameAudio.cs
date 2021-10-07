@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Audio;
+﻿using System;
+using Game.Scripts.Audio;
 using UnityEngine;
 
 namespace Game.Scripts.GameManager
@@ -6,6 +7,7 @@ namespace Game.Scripts.GameManager
     public class GameAudio : MonoBehaviour
     {
         private AudioManager audioManager;
+        private GameManager gameManager;
 
         [Range(0.0f, 1.0f)]
         [SerializeField] private float environmentVolume;
@@ -13,6 +15,14 @@ namespace Game.Scripts.GameManager
         // Start is called before the first frame update
         void Start()
         {
+            try
+            {
+                gameManager = FindObjectOfType<GameManager>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             audioManager = FindObjectOfType<AudioManager>();
             audioManager.Play(GameSounds.Environment1);
             audioManager.SetVolume(GameSounds.Environment1, environmentVolume);
@@ -23,6 +33,15 @@ namespace Game.Scripts.GameManager
         {
             if (audioManager == null)
                 audioManager = FindObjectOfType<AudioManager>();
+
+            if (!gameManager.IsGameRunning && !gameManager.IsPaused)
+            {
+                audioManager.SetVolume(GameSounds.Environment1, 0.0f);
+            }
+            else
+            {
+                audioManager.SetVolume(GameSounds.Environment1, environmentVolume);
+            }
         }
     }
 }

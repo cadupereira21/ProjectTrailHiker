@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -24,11 +25,18 @@ namespace Game.Scripts.Player
 
         private void Awake()
         {
+            // GainBottles(1000);
             // PlayerPrefs.DeleteKey("boughtItem_0");
             // PlayerPrefs.DeleteKey("boughtItem_1");
             // PlayerPrefs.DeleteKey("boughtItem_2");
             // PlayerPrefs.DeleteKey("boughtItem_3");
-            
+            // PlayerPrefs.DeleteKey("equipedItem_Body");
+            // PlayerPrefs.DeleteKey("equipedItem_Legs");
+            // PlayerPrefs.DeleteKey("equipedItem_Foot");
+            // PlayerPrefs.DeleteKey("equipedItem_Head");
+            // PlayerPrefs.DeleteKey("equipedItem_RightHand");
+            // PlayerPrefs.DeleteKey("equipedItem_LeftHand");
+
             if (_instance == null)
                 _instance = this;
             else
@@ -42,6 +50,9 @@ namespace Game.Scripts.Player
             DontDestroyOnLoad(gameObject);
 
             AttAllAtributes();
+            
+            Debug.Log("Equiped Itens: \n" + "Body: " + equipedItem_Body + "\n Legs: " + equipedItem_Legs + "\n Foot: " + equipedItem_Foot + "\n Head: " + equipedItem_Head
+            + "\n LeftHand: " + equipedItem_LeftHand + "\n RightHand: " + equipedItem_RightHand);
             
             Debug.Log("Number of itens bought: " + boughtItens.Count + "\n Number of bottles owned: " + bottles);
         }
@@ -119,23 +130,42 @@ namespace Game.Scripts.Player
 
         public int EquipItem(Item item, string slotName)
         {
-            if (slotName.Equals("Head") || slotName.Equals("Body") || slotName.Equals("LeftHand") ||
-                slotName.Equals("RightHand") || slotName.Equals("Legs") || slotName.Equals("Foot"))
-            {
-                if(slotName.Equals("LeftHand") || slotName.Equals("RightHand"))
-                    if (!item.Type.Equals("Hand"))
-                    {
-                        Debug.Log("EquipItem(Item item, string slotName) -> slotName does not match with item type!");
-                        return -1;   
-                    }
+            string itemType = "";
+            
+            if (slotName.Equals("LeftHand") || slotName.Equals("RightHand"))
+                itemType = "Hand";
+            else
+                itemType = slotName;
 
-                if (!item.Type.Equals(slotName))
+            if (itemType.Equals("Head") || itemType.Equals("Body") || itemType.Equals("Hand") || itemType.Equals("Legs") || itemType.Equals("Foot"))
+            {
+                if (!item.Type.ToString().Equals(itemType))
                 {
                     Debug.Log("EquipItem(Item item, string slotName) -> slotName does not match with item type!");
                     return -1;  
                 }
-                    
 
+                if (itemType == "Hand")
+                {
+                    switch (slotName)
+                    {
+                        case "LeftHand":
+                            if (equipedItem_RightHand == item.Name)
+                            {
+                                Debug.Log("Este item já está equipado na outra mão!");
+                                return -1;
+                            }
+                            break;
+                        case "RightHand":
+                            if (equipedItem_LeftHand == item.Name)
+                            {
+                                Debug.Log("Este item já está equipado na outra mão!");
+                                return -1;
+                            }
+                            break;
+                    }
+                }
+                
                 PlayerPrefs.SetString("equipedItem_" + slotName, item.name);
                 
                 equipedItem_Head = PlayerPrefs.GetString("equipedItem_Head");
@@ -167,6 +197,24 @@ namespace Game.Scripts.Player
         public ArrayList GetAllBoughtItens()
         {
             return boughtItens;
+        }
+
+        public List<Item> GetBoughtItensByType(string itemType)
+        {
+            List<Item> aux = new List<Item>();
+
+            if (itemType.Equals("LeftHand") || itemType.Equals("RightHand"))
+                itemType = "Hand";
+            
+            foreach (Item VARIABLE in boughtItens)
+            {
+                if (VARIABLE.Type.ToString().Equals(itemType))
+                {
+                    aux.Add(VARIABLE);
+                }
+            }
+
+            return aux;
         }
 
         public Item SearchBoughtItem(string itemName)
@@ -219,8 +267,7 @@ namespace Game.Scripts.Player
             {
                 equipedItens[5] = SearchBoughtItem(equipedItem_LeftHand);
             }
-
-            Debug.Log(equipedItens);
+            
             return equipedItens;
         }
 

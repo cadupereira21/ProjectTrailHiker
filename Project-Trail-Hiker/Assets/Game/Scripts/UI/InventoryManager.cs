@@ -16,14 +16,17 @@ namespace Game.Scripts.UI
 
         private PlayerInventory playerInventory;
 
+        private EquipItem equipItem;
+
         private void Start()
         {
             playerInventory = FindObjectOfType<PlayerInventory>();
+            equipItem = GetComponent<EquipItem>();
             
             SetLabels();
         }
 
-        private void SetLabels()
+        public void SetLabels()
         {
             var equipedItens = playerInventory.GetAllEquipedItens();
 
@@ -52,8 +55,27 @@ namespace Game.Scripts.UI
             
             switch (slotNumber)
             {
-                
+                case 1:
+                    itemType = "Body";
+                    break;
+                case 2: 
+                    itemType = "Legs";
+                    break;
+                case 3: 
+                    itemType = "Foot";
+                    break;
+                case 4:
+                    itemType = "Head";
+                    break;
+                case 5:
+                    itemType = "RightHand";
+                    break;
+                case 6:
+                    itemType = "LeftHand";
+                    break;
             }
+            
+            equipItem.DisplayItens(itemType);
         }
     }
 }

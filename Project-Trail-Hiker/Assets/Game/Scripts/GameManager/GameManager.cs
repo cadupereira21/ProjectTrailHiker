@@ -13,9 +13,12 @@ namespace Game.Scripts.GameManager
 
         private float levelSpeed;
         [SerializeField] private bool isGameRunning;
+        private bool isPaused;
 
         public float LevelSpeed { get { return levelSpeed; } }
-        public bool IsGameRunning { get { return isGameRunning; } }
+        public bool IsGameRunning => isGameRunning;
+
+        public bool IsPaused => isPaused;
 
         private void Awake()
         {
@@ -32,14 +35,9 @@ namespace Game.Scripts.GameManager
         // Update is called once per frame
         void Update()
         {
-            // if (!isGameRunning)
-            // {
-            //     levelSpeed = 0.0f;
-            //     Time.timeScale = 0.0f;
-            // }
-
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                isPaused = true;
                 Time.timeScale = 0.0f;
                 isGameRunning = false;
                 pauseUI.gameObject.SetActive(true);
@@ -53,6 +51,7 @@ namespace Game.Scripts.GameManager
 
         public void GameStart()
         {
+            isPaused = false;
             isGameRunning = true;
             levelSpeed = 1.0f;
             Time.timeScale = 1.0f;
@@ -60,10 +59,21 @@ namespace Game.Scripts.GameManager
 
         public void GameOver()
         {
+            isPaused = false;
             Time.timeScale = 0.0f;
             Debug.Log("GameOver");
             isGameRunning = false;
             gameOverUI.gameObject.SetActive(true);
+        }
+
+        public void DisableGameRunning()
+        {
+            isGameRunning = false;
+        }
+
+        public void DisablePause()
+        {
+            isPaused = false;
         }
     }
 }

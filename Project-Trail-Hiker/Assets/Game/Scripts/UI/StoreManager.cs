@@ -35,7 +35,14 @@ namespace Game.Scripts.UI
 
         private void SetLabels()
         {
-            currentWage.text = playerInventory.Bottles.ToString();
+            try
+            {
+                currentWage.text = playerInventory.Bottles.ToString();
+            }
+            catch (NullReferenceException error)
+            {
+                
+            }
             
             var boughItens = playerInventory.GetAllBoughtItens();
             
@@ -50,7 +57,25 @@ namespace Game.Scripts.UI
                 }
                 itemImageLabel[i].sprite = itens[i].Image;
                 itemNameLabel[i].text = itens[i].Name;
-                itemTypeLabel[i].text = itens[i].Type.ToString();
+
+                switch (itens[i].Type.ToString())
+                {
+                    case "Hand":
+                        itemTypeLabel[i].text = "Mão";
+                        break;
+                    case "Body":
+                        itemTypeLabel[i].text = "Corpo";
+                        break;
+                    case "Legs":
+                        itemTypeLabel[i].text = "Pernas";
+                        break;
+                    case "Foot":
+                        itemTypeLabel[i].text = "Pés";
+                        break;
+                    case "Head":
+                        itemTypeLabel[i].text = "Cabeça";
+                        break;
+                }
             }
         }
 

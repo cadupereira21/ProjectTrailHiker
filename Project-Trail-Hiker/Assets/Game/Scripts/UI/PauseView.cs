@@ -5,11 +5,11 @@ namespace Game.Scripts.UI
 {
     public class PauseView : Ui
     {
-        //private GameManager.GameManager gameManager;
+        private GameManager.GameManager gameManager;
 
         void Start()
         {
-            //gameManager = FindObjectOfType<GameManager.GameManager>();
+            gameManager = FindObjectOfType<GameManager.GameManager>();
         }
 
         public void ResumeButtonPressed()
@@ -20,6 +20,8 @@ namespace Game.Scripts.UI
 
         public void QuitButtonPressed()
         {
+            gameManager.DisableGameRunning();
+            gameManager.DisablePause();
             Time.timeScale = 1.0f;
             SceneManager.LoadScene("InitialScene");
         }

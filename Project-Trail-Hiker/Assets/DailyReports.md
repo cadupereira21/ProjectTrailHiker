@@ -69,3 +69,9 @@ Today I fixed the Level Selector animation bug :D I also started the store ui an
 
 # Day 21 - 04/10
 Today I finished our store. THe only thing left to complete the initial scene, is to make the equip item system :D
+
+# Day 22 - 06/10
+Today I finished all the initia UI :) equiping the Backpack has a bug but I dont think it's essential for the demo day, which is tomorrow
+
+# Day 23 - 07/10
+Today I'm working on the environment!
