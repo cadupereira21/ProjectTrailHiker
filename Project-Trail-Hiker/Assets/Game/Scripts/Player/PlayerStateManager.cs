@@ -49,7 +49,6 @@ namespace Game.Scripts.Player
         void Update()
         {
             isGrounded = playerCollider.CheckGrounded();
-            isJumping = !isGrounded;
             canJump = isGrounded && !isOnQte;
             needsToJump = playerCollider.CheckNeedsToJump();
             isMovingDown = playerCollider.CheckMovingDown();
@@ -77,6 +76,9 @@ namespace Game.Scripts.Player
                     break;
                 case "isFlipping":
                     isFlipping = boolean;
+                    break;
+                case "isJumping":
+                    isJumping = boolean;
                     break;
                 default:
                     Debug.LogError("Could not find " + state);

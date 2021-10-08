@@ -9,14 +9,7 @@ namespace Game.Scripts.UI
 {
     public class GameOverView : Ui
     {
-        /*
-            - clocks : GameObject[3]
-            - stars : GameObject[3]
-            - newBottles : TextMeshProUGUI
-            - newTotalBottles : TextMeshProUGUI
-            - oldTotalBottles : TextMeshProUGUI
-            - levelNumber : int 
-         */
+        private GameManager.GameManager gameManager;
 
         [SerializeField] private GameObject[] clocks = new GameObject[3];
         [SerializeField] private GameObject[] stars = new GameObject[3];
@@ -29,9 +22,12 @@ namespace Game.Scripts.UI
         //private int oldTotalBottles;
         [SerializeField] private TextMeshProUGUI levelNumber;
 
-        [SerializeField] private PlayerInventory playerInventory;
+        private PlayerInventory playerInventory;
         public void Start()
         {
+            gameManager = FindObjectOfType<GameManager.GameManager>();
+            playerInventory = FindObjectOfType<PlayerInventory>();
+            
             //oldTotalBottles = playerInventory.Bottles;
             for (int i = 0; i < ScoreManager.ClockNumber; i++)
                 clocks[i].gameObject.SetActive(true);
@@ -66,8 +62,10 @@ namespace Game.Scripts.UI
 
         public void QuitButtonPressed()
         {
+            gameManager.DisableGameRunning();
+            gameManager.DisablePause();
             Time.timeScale = 1.0f;
-            SceneManager.LoadScene("InitialScene");    
+            SceneManager.LoadScene("InitialScene");
         }
     }
 }

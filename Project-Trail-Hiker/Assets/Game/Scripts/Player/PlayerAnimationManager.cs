@@ -6,6 +6,7 @@ namespace Game.Scripts.Player
     {
         public const string IsWalking = "isWalking";
         public const string IsFalling = "isFalling";
+        public const string IsJumping = "isJumping";
     }
     public class PlayerAnimationManager : Player
     {
@@ -27,6 +28,12 @@ namespace Game.Scripts.Player
             } else { animator.SetBool(AnimationKeys.IsWalking, false); }
 
             animator.SetBool(AnimationKeys.IsFalling, StateManager.IsFalling);
+            
+            if (StateManager.IsJumping)
+            {
+                animator.Play("jump_anim");
+                StateManager.SetState("isJumping", false);
+            }
         }
     }
 }

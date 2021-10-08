@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Rope
   type: 1
-  price: 10
+  price: 4
   image: {fileID: 21300000, guid: e068f02af7786484290cf9c792154446, type: 3}

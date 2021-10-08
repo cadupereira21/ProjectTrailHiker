@@ -159,6 +159,7 @@ namespace Game.Scripts.Player
          switch (isRightButton)
          {
             case true: Debug.Log("Botao Certo!");
+               StateManager.SetState("isJumping", true);
                break;
             case false: Debug.Log("Botao Errado!");
                InputManager.fall = true;
