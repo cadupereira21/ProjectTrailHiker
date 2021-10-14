@@ -23,6 +23,11 @@ namespace Game.Scripts.Player
         public float inputAverageTime = 0f;
         private float maxSpeed = 10f;
         private float movementTimer = -1f;
+        private float initialPlayerPositionY = 0.0f;
+
+        private IEnumerator iCheckingPosition;
+        private IEnumerator iFall;
+        private IEnumerator iFlip;
 
         //public bool isFalling { private set; get; }
         //public bool IsFlipping { private set; get; }
@@ -97,6 +102,12 @@ namespace Game.Scripts.Player
 
             normalColliderOffset = collider.offset;
             normalColliderSize = collider.size;
+
+            initialPlayerPositionY = this.transform.position.y;
+            iCheckingPosition = CheckPosition();
+            iFall = Fall();
+            iFlip = Flipping();
+            StartCoroutine(iCheckingPosition);
         }
 
         public void Update()
@@ -133,7 +144,7 @@ namespace Game.Scripts.Player
             {
                 Debug.Log("Cai");
                 //TODO: Play animation
-                StartCoroutine(Fall());
+                StartCoroutine(iFall);
                 InputManager.fall = false;
                 scoreManager.fallNumber += 1;
             }
@@ -195,8 +206,7 @@ namespace Game.Scripts.Player
             if ((Time.time - movementTimer <= movementTimeOut))
             {
                 // Acelerando
-                if (StateManager.IsCrouched) { targetVelocity = new Vector2(crouchMovementSpeed * PlayerDirection, PlayerRb.velocity.y); }
-                else { targetVelocity = new Vector2(maxSpeed * PlayerDirection, PlayerRb.velocity.y); }
+                targetVelocity = new Vector2(maxSpeed * PlayerDirection, PlayerRb.velocity.y);
 
                 if (targetVelocity.x > maxSpeed)
                 {
@@ -245,7 +255,7 @@ namespace Game.Scripts.Player
             }
             else if(inputAverageTime > 0f)
             {
-                StartCoroutine(Fall());
+                StartCoroutine(iFall);
             }
         }
 
@@ -253,22 +263,22 @@ namespace Game.Scripts.Player
         {
             PlayerRb.transform.localScale = new Vector3(-PlayerRb.transform.localScale.x, PlayerRb.transform.localScale.y, PlayerRb.transform.localScale.z);
             PlayerDirection = PlayerDirection == 1 ? -1 : 1;
-            StartCoroutine(Flipping());
+            StartCoroutine(iFlip);
             InputManager.aTime = 0f;
             InputManager.dTime = 0f;
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
         }
 
-        private void Jump()
-        {
-            if (!StateManager.IsCrouched)
-            {
-                PlayerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                InputManager.aWasPressed = false;
-                InputManager.dWasPressed = false;
-            }
-        }
+        // private void Jump()
+        // {
+        //     if (!StateManager.IsCrouched)
+        //     {
+        //         PlayerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //         InputManager.aWasPressed = false;
+        //         InputManager.dWasPressed = false;
+        //     }
+        // }
 
         public void AbortJump()
         {
@@ -296,28 +306,28 @@ namespace Game.Scripts.Player
             }
         }
 
-        private void Crouch()
-        {
-            if (!StateManager.IsJumping)
-            {
-                collider.size = new Vector2(collider.size.x, collider.size.y * crouchResizePercentage);
-                collider.offset = new Vector2(collider.offset.x, collider.offset.y - 0.45f);
-                StateManager.SetState("isCrouched", true);
-                //canJump = false;
-                InputManager.aWasPressed = false;
-                InputManager.dWasPressed = false;
-            }
-        }
+        // private void Crouch()
+        // {
+        //     if (!StateManager.IsJumping)
+        //     {
+        //         collider.size = new Vector2(collider.size.x, collider.size.y * crouchResizePercentage);
+        //         collider.offset = new Vector2(collider.offset.x, collider.offset.y - 0.45f);
+        //         StateManager.SetState("isCrouched", true);
+        //         //canJump = false;
+        //         InputManager.aWasPressed = false;
+        //         InputManager.dWasPressed = false;
+        //     }
+        // }
 
-        private void Uncrouch()
-        {
-            collider.offset = normalColliderOffset;
-            collider.size = normalColliderSize;
-            StateManager.SetState("isCrouched", false);
-            //canJump = true;
-            InputManager.aWasPressed = false;
-            InputManager.dWasPressed = false;
-        }
+        // private void Uncrouch()
+        // {
+        //     collider.offset = normalColliderOffset;
+        //     collider.size = normalColliderSize;
+        //     StateManager.SetState("isCrouched", false);
+        //     //canJump = true;
+        //     InputManager.aWasPressed = false;
+        //     InputManager.dWasPressed = false;
+        // }
 
         // ReSharper disable once FunctionRecursiveOnAllPaths
         private IEnumerator Fall()
@@ -335,15 +345,17 @@ namespace Game.Scripts.Player
 
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
+            StateManager.ResetStates();
             //balanceAmount = 1;
 
-            StopCoroutine(Fall());
+            StopCoroutine(iFall);
         }
 
         private IEnumerator Flipping()
         {
             StateManager.SetState("isFlipping", true);
-            while(!Mathf.Approximately(PlayerRb.velocity.x, 0))
+
+            while(!Mathf.Approximately(PlayerRb.velocity.x, 0.0f))
             {
                 //targetVelocity = new Vector2( maxSpeed * -PlayerDirection, playerRb.velocity.y);
                 PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate*2f);
@@ -353,9 +365,44 @@ namespace Game.Scripts.Player
             StateManager.SetState("isFlipping", false);
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
+            StateManager.ResetStates();
             //balanceAmount = 1;
 
-            StopCoroutine(Flipping());
+            yield break;
+        }
+
+        private IEnumerator CheckPosition()
+        {
+            //int aux = 0;
+            while (true)
+            {
+                // if (!StateManager.IsGrounded)
+                // {
+                //     aux++;
+                //     if (aux > 5)
+                //     {
+                //         gameObject.transform.position = new Vector3(gameObject.transform.position.x, initialPlayerPositionY+1, gameObject.transform.position.z);
+                //         aux = 0;
+                //         yield return new WaitForSeconds(2.0f);
+                //     }
+                //     else
+                //     {
+                //         yield return new WaitForSeconds(0.2f);   
+                //     }
+                // }
+                // else
+                // {
+                //     aux = 0;
+                //     yield return new WaitForSeconds(2.0f);
+                // }
+                if (PlayerRb.velocity.y < -20.0f)
+                {
+                    PlayerRb.velocity = Vector2.zero;
+                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, initialPlayerPositionY + 1, gameObject.transform.position.z);   
+                }
+
+                yield return new WaitForSeconds(1.0f);
+            }
         }
     }
 }
