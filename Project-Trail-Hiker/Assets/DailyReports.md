@@ -78,3 +78,6 @@ Today I'm working on the environment!
 
 # Day 24 - 08/10
 Today I finished the environment (its not completed, but its ok for today's checkpoint). I also added the jumping animation and fixed the time for the standing up animation!
+
+#Day 25 - 20/10
+I forgot to update the report recently, but today I tried to fix some visual bugs and added all other sounds for the game!

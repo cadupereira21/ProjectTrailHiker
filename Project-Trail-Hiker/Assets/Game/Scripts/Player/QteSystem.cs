@@ -158,10 +158,10 @@ namespace Game.Scripts.Player
          hud.QteRespondPlayerInput("W", isRightButton);
          switch (isRightButton)
          {
-            case true: Debug.Log("Botao Certo!");
+            case true:
                StateManager.SetState("isJumping", true);
                break;
-            case false: Debug.Log("Botao Errado!");
+            case false:
                InputManager.fall = true;
                break;
          }

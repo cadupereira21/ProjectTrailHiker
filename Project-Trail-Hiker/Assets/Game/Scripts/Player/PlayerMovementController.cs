@@ -129,15 +129,15 @@ namespace Game.Scripts.Player
             }
             
             // Flip
-            if (InputManager.IsSwipeDirectionButtonDown())
-            {
-                FlipDirection();
-            }
-
-            if (!gameManager.IsGameRunning || StateManager.IsFlipping)
-            {
-                return;
-            }
+            // if (InputManager.IsSwipeDirectionButtonDown())
+            // {
+            //     FlipDirection();
+            // }
+            //
+            // if (!gameManager.IsGameRunning || StateManager.IsFlipping)
+            // {
+            //     return;
+            // }
 
             //Cair
             if (InputManager.fall)
