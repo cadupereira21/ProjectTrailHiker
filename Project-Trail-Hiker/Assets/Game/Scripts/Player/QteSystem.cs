@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DG.Tweening;
 using Game.Scripts.UI;
 using UnityEngine;
 
@@ -6,8 +7,8 @@ namespace Game.Scripts.Player
 {
    public class QteSystem : Player
    {
-      public PhysicsMaterial2D normalPhysics;
-      public PhysicsMaterial2D slopePhysics;
+      // public PhysicsMaterial2D normalPhysics;
+      // public PhysicsMaterial2D slopePhysics;
       
       //private Rigidbody2D player;
       //private PlayerColliderManager colliderManager;
@@ -16,7 +17,11 @@ namespace Game.Scripts.Player
       private Hud hud;
       //private PlayerStateManager playerState;
 
+      [SerializeField] private Rigidbody2D playerRb;
+
       private bool isOnObstacleQte = false;
+
+      private bool hasEnteredQte = false;
       private void Start()
       {
          //colliderManager = FindObjectOfType<PlayerColliderManager>();
@@ -24,39 +29,52 @@ namespace Game.Scripts.Player
          playerMovement = GetComponent<PlayerMovementController>();
          //inputManager = GetComponent<PlayerInputManager>();
          hud = FindObjectOfType<Hud>();
+         playerRb = GetComponent<Rigidbody2D>();
+         StartCoroutine(ObstacleQte());
          //playerState = GetComponent<PlayerStateManager>();
       }
 
       private void Update()
       {
+         /*
+          * 1) Checar o collider com o ObstacleQTETrigger
+          * 2) Caso verdadeiro: Iniciar a corrotina para pegar o input do player
+          * 3) Caso falso: Terminar a corrotina
+          * 4) Checar o collider com o objeto
+          * 5) Caso verdadeiro: Checar o isButtonRight
+          *    5.1) Caso verdadeiro: Pular
+          *    5.2) Caso falso: Cair
+          *
+          * CORROTINA:
+          *    a) isButtonRight = false
+          *    a) Setar a velocidade do player para uma possível de pular o objeto
+          *    b) Enquanto estiver dentro do collider
+          *       b.1) Checar se algum botão igual a w ou s foi pressionado
+          *          b.1.1) Caso sim: isButtonRight = true + hud.QteRespondPlayerInput("W", isRightButton)
+          *          b.1.2) Caso não: isButtonRight = false
+          *       b.2) yield break;
+          */
          if (!StateManager.IsMovingDown && !StateManager.IsMovingUp && !StateManager.NeedsToJump)
          {
-            isOnObstacleQte = false;
-            StopCoroutine(SlopeQte(true));
-            StopCoroutine(SlopeQte(false));
-            hud.HideQTEButton("S");
-            hud.HideQTEButton("W");
-            PlayerRb.sharedMaterial = normalPhysics;
+            // StopCoroutine(SlopeQte(true));
+            // StopCoroutine(SlopeQte(false));
+            // hud.HideQTEButton("S");
+            // hud.HideQTEButton("W");
+            // PlayerRb.sharedMaterial = normalPhysics;
             return;
          }
-         
-         PlayerRb.sharedMaterial = slopePhysics;
 
-         if (StateManager.IsMovingUp)
-         {
-            StartCoroutine(SlopeQte(true));
-         }
-
-         if (StateManager.IsMovingDown)
-         {
-            StartCoroutine(SlopeQte(false));
-         }
-
-         if (StateManager.NeedsToJump && !isOnObstacleQte)
-         {
-            isOnObstacleQte = true;
-            StartCoroutine(ObstacleQte());
-         }
+         // PlayerRb.sharedMaterial = slopePhysics;
+         //
+         // if (StateManager.IsMovingUp)
+         // {
+         //    StartCoroutine(SlopeQte(true));
+         // }
+         //
+         // if (StateManager.IsMovingDown)
+         // {
+         //    StartCoroutine(SlopeQte(false));
+         // }
 
          if (PlayerRb.velocity.x < 0)
          {
@@ -73,106 +91,171 @@ namespace Game.Scripts.Player
          }
       }
 
-      private IEnumerator SlopeQte(bool isMovingUp)
+      // private IEnumerator SlopeQte(bool isMovingUp)
+      // {
+      //    bool isButtonPressed = false;
+      //    KeyCode buttonNeeded1 = KeyCode.A;
+      //    KeyCode buttonNeeded2 = KeyCode.A;
+      //    var whichButton = "";
+      //
+      //    switch (isMovingUp)
+      //    {
+      //       case true:
+      //          whichButton = "W";
+      //          buttonNeeded1 = KeyCode.W;
+      //          buttonNeeded2 = KeyCode.UpArrow;
+      //          break;
+      //       case false:
+      //          whichButton = "S";
+      //          buttonNeeded1 = KeyCode.S;
+      //          buttonNeeded2 = KeyCode.DownArrow;
+      //          break;
+      //    }
+      //    
+      //    hud.ShowQTEButton(whichButton);
+      //    
+      //    if (Input.anyKeyDown)
+      //    {
+      //       isButtonPressed = true;
+      //    }
+      //
+      //    if (isButtonPressed && (Input.GetKeyDown(buttonNeeded1) || Input.GetKeyDown(buttonNeeded2)))
+      //    {
+      //       if (playerMovement.balanceAmount > 0 && !StateManager.IsFalling)
+      //       {
+      //          PlayerRb.velocity = new Vector2(playerMovement.SlopeSpeed, 0f);
+      //          playerMovement.balanceAmount -= playerMovement.UnbalancePercentageRate;
+      //          isButtonPressed = false;  
+      //       }
+      //       yield return null;  
+      //    }
+      //    else if (isButtonPressed)
+      //    {
+      //       isButtonPressed = false;
+      //       yield return null;
+      //    }
+      // }
+
+      /* CORROTINA:
+      *    a) isButtonRight = false
+      *    a) Setar a velocidade do player para uma possível de pular o objeto
+      *    b) Enquanto estiver dentro do collider
+         *       b.1) Checar se algum botão igual a w ou s foi pressionado
+         *          b.1.1) Caso sim: isButtonRight = true + hud.QteRespondPlayerInput("W", isRightButton)
+      *          b.1.2) Caso não: isButtonRight = false
+      *       b.2) yield break;
+      */
+      // private IEnumerator ObstacleQte()
+      // {
+      //    hud.ShowQTEButton("W");
+      //    isButtonRight = false;
+      //    var isButtonPressed = false;
+      //    var oldVelocity = playerRb.velocity;
+      //
+      //    DOTween.To(()=> playerRb.velocity, x=> playerRb.velocity = x, new Vector2(9f, playerRb.velocity.y), 0.7f);
+      //
+      //    while (StateManager.NeedsToJump || !isButtonPressed)
+      //    {
+      //       if (Input.anyKeyDown)
+      //       {
+      //          var buttonPressed = Input.inputString;
+      //          switch (buttonPressed)
+      //          {
+      //             case "w":
+      //                isButtonPressed = true;
+      //                isButtonRight = true;
+      //                break;
+      //             case "s":
+      //                isButtonPressed = true;
+      //                isButtonRight = false;
+      //                break;
+      //             default:
+      //                buttonPressed = "";
+      //                break;
+      //          }
+      //       }
+      //       yield return null;
+      //    }
+      //
+      //    isOnObstacleQte = false;
+      //    hasExitCorroutine = true;
+      //    //DOTween.To(()=> playerRb.velocity, x=> playerRb.velocity = x, oldVelocity, 0.5f);
+      // }
+      
+      private IEnumerator ObstacleQte()
       {
-         bool isButtonPressed = false;
-         KeyCode buttonNeeded1 = KeyCode.A;
-         KeyCode buttonNeeded2 = KeyCode.A;
-         var whichButton = "";
+         var isButtonRight = false;
+         var isButtonPressed = false;
+         while (true)
+         {
+            var oldVelocity = playerRb.velocity;
 
-         switch (isMovingUp)
-         {
-            case true:
-               whichButton = "W";
-               buttonNeeded1 = KeyCode.W;
-               buttonNeeded2 = KeyCode.UpArrow;
-               break;
-            case false:
-               whichButton = "S";
-               buttonNeeded1 = KeyCode.S;
-               buttonNeeded2 = KeyCode.DownArrow;
-               break;
-         }
-         
-         hud.ShowQTEButton(whichButton);
-         
-         if (Input.anyKeyDown)
-         {
-            isButtonPressed = true;
-         }
-
-         if (isButtonPressed && (Input.GetKeyDown(buttonNeeded1) || Input.GetKeyDown(buttonNeeded2)))
-         {
-            if (playerMovement.balanceAmount > 0 && !StateManager.IsFalling)
+            while (StateManager.NeedsToJump)
             {
-               PlayerRb.velocity = new Vector2(playerMovement.SlopeSpeed, 0f);
-               playerMovement.balanceAmount -= playerMovement.UnbalancePercentageRate;
-               isButtonPressed = false;  
+               hasEnteredQte = true;
+               hud.ShowQTEButton("W");
+               DOTween.To(()=> playerRb.velocity, x=> playerRb.velocity = x, new Vector2(8.5f, playerRb.velocity.y), 1.0f);
+            
+               switch (isButtonPressed)
+               {
+                  case true:
+                     hud.QteRespondPlayerInput("W", isButtonRight);
+                     break;
+                  default: if(Input.anyKeyDown)
+                  {
+                     var buttonPressed = Input.inputString;
+                     switch (buttonPressed)
+                     {
+                        case "w":
+                           Debug.Log("Botão certo!");
+                           isButtonPressed = true;
+                           isButtonRight = true;
+                           break;
+                        case "s":
+                           Debug.Log("Botão errado!");
+                           isButtonPressed = true;
+                           isButtonRight = false;
+                           break;
+                        default:
+                           buttonPressed = "";
+                           break;
+                     }
+                  } break;
+               }
+               yield return null;
             }
-            yield return null;  
-         }
-         else if (isButtonPressed)
-         {
-            isButtonPressed = false;
+
+            if (hasEnteredQte)
+            {
+               if (!isButtonRight)
+                  yield return new WaitForSeconds(0.12f);
+               
+               AnswerObstacleQte(isButtonRight);
+               //DOTween.To(()=> playerRb.velocity, x=> playerRb.velocity = x, oldVelocity, 1.0f);
+               isButtonPressed = false;
+               isButtonRight = false;
+               hasEnteredQte = false;
+               InputManager.aWasPressed = false;
+               InputManager.dWasPressed = false;
+            }
+         
+            hud.HideQTEButton("W");
             yield return null;
          }
       }
 
-      private IEnumerator ObstacleQte()
+      private void AnswerObstacleQte(bool isButtonRight)
       {
-         hud.ShowQTEButton("W");
-         yield return new WaitForSeconds(0.12f);
-         InputManager.aWasPressed = false;
-         InputManager.dWasPressed = false;
-         
-         bool isButtonPressed = false;
-         bool isRightButton = false;
-
-         while (!isButtonPressed)
+         hud.HideQTEButton("W");
+         if (isButtonRight)
          {
-            if (!StateManager.NeedsToJump)
-            {
-               isRightButton = false;
-               Debug.Log("Voce nao apertou nenhum botao!");
-               break;
-            }
-            if (Input.anyKeyDown)
-            {
-               isButtonPressed = true;
-            }
-            
-            if (isButtonPressed && InputManager.IsJumpButtonDown())
-            {
-               Debug.Log("Botao certo!");
-               isRightButton = true;
-            }
-            else if(isButtonPressed)
-            {
-               Debug.Log("Botao errado!");
-               isRightButton = false;
-            }
-
-            yield return null;
+            //pular
+            StateManager.SetState("isJumping", true);
          }
-         
-         hud.QteRespondPlayerInput("W", isRightButton);
-         switch (isRightButton)
+         else
          {
-            case true:
-               StateManager.SetState("isJumping", true);
-               break;
-            case false:
-               InputManager.fall = true;
-               break;
+            InputManager.fall = true;  
          }
-
-         while (StateManager.NeedsToJump)
-         {
-            yield return null;
-         }
-         
-         //hud.HideQTEButton("W");
-         StopCoroutine(ObstacleQte());
       }
 
       private IEnumerator GetOutOfObstacleQte()

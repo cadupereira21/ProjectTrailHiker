@@ -27,8 +27,12 @@ namespace Game.Scripts.Player
                 animator.SetBool(AnimationKeys.IsWalking, true);
             } else { animator.SetBool(AnimationKeys.IsWalking, false); }
 
-            animator.SetBool(AnimationKeys.IsFalling, StateManager.IsFalling);
-            
+            if (StateManager.IsFalling)
+            {
+                animator.Play("falling_anim");
+                StateManager.SetState("isFalling", false);
+            }
+
             if (StateManager.IsJumping)
             {
                 animator.Play("jump_anim");

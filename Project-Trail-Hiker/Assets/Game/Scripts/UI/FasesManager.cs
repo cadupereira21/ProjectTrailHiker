@@ -81,11 +81,11 @@ namespace Game.Scripts.UI
 
         private void Animate()
         {
-            Debug.Log(levelDetailsField.anchoredPosition + "\n" + map.anchoredPosition);
+            //Debug.Log(levelDetailsField.anchoredPosition + "\n" + map.anchoredPosition);
             map.DOAnchorPos(new Vector2(332, -26), animationDuration);
             map.DOScale(new Vector3(0.35f, 0.35f, 0), animationDuration);
             levelDetailsField.DOAnchorPos(new Vector2(-300.0f, 0), animationDuration);
-            Debug.Log("Terminei de Animar");
+            //Debug.Log("Terminei de Animar");
         }
 
         private void NewAnimate()

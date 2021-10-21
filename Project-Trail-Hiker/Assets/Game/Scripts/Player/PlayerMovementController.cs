@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using DG.Tweening;
 using Game.Scripts.GameManager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Scripts.Player
 {
@@ -37,7 +39,7 @@ namespace Game.Scripts.Player
         [SerializeField] private float accelerationRate;
         [Range(1f, 5f)]
         [SerializeField] private float decelerationForce = 2f;
-        [SerializeField] private float decelerationRate;
+        [FormerlySerializedAs("decelerationRate")] [Range(0.01f, 10.0f)] [SerializeField] private float decelerationAnimTime;
         [Range(0.1f, 1f)]
         [Tooltip("Seta o time out entre os inputs necessário para o personagem começar a frear")]
         [SerializeField] private float movementTimeOut = 1f;
@@ -105,8 +107,8 @@ namespace Game.Scripts.Player
 
             initialPlayerPositionY = this.transform.position.y;
             iCheckingPosition = CheckPosition();
-            iFall = Fall();
-            iFlip = Flipping();
+            // iFall = Fall();
+            //iFlip = Flipping();
             StartCoroutine(iCheckingPosition);
         }
 
@@ -144,7 +146,8 @@ namespace Game.Scripts.Player
             {
                 Debug.Log("Cai");
                 //TODO: Play animation
-                StartCoroutine(iFall);
+                // StartCoroutine(iFall);
+                Fall();
                 InputManager.fall = false;
                 scoreManager.fallNumber += 1;
             }
@@ -330,46 +333,69 @@ namespace Game.Scripts.Player
         // }
 
         // ReSharper disable once FunctionRecursiveOnAllPaths
-        private IEnumerator Fall()
+        // private IEnumerator Fall()
+        // {
+        //     Debug.Log("Entrei na corrotina Fall()");
+        //     InputManager.fall = false;
+        //     StateManager.SetState("isFalling", true);
+        //     
+        //     // while(PlayerRb.velocity.x != 0)
+        //     // {
+        //     //     //targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
+        //     //     PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate);
+        //     //     //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
+        //     //     yield return null;
+        //     // }
+        //     DOTween.To(()=> PlayerRb.velocity, x=> PlayerRb.velocity = x, Vector2.zero, decelerationAnimTime);
+        //     //StateManager.SetState("isFalling", false);
+        //
+        //     InputManager.aWasPressed = false;
+        //     InputManager.dWasPressed = false;
+        //     //StateManager.ResetStates();
+        //     //balanceAmount = 1;
+        //     yield break;
+        // }
+        
+        private void Fall()
         {
+            InputManager.fall = false;
             StateManager.SetState("isFalling", true);
             
-            while(PlayerRb.velocity.x != 0)
-            {
-                //targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
-                PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate);
-                //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
-                yield return null;
-            }
-            StateManager.SetState("isFalling", false);
+            // while(PlayerRb.velocity.x != 0)
+            // {
+            //     //targetVelocity = new Vector2(fallSpeedDeceleration * maxSpeed * -PlayerDirection, playerRb.velocity.y);
+            //     PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate);
+            //     //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
+            //     yield return null;
+            // }
+            DOTween.To(()=> PlayerRb.velocity, x=> PlayerRb.velocity = x, Vector2.zero, decelerationAnimTime);
+            //StateManager.SetState("isFalling", false);
 
             InputManager.aWasPressed = false;
             InputManager.dWasPressed = false;
-            StateManager.ResetStates();
+            //StateManager.ResetStates();
             //balanceAmount = 1;
-
-            StopCoroutine(iFall);
         }
 
-        private IEnumerator Flipping()
-        {
-            StateManager.SetState("isFlipping", true);
-
-            while(!Mathf.Approximately(PlayerRb.velocity.x, 0.0f))
-            {
-                //targetVelocity = new Vector2( maxSpeed * -PlayerDirection, playerRb.velocity.y);
-                PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate*2f);
-                //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
-                yield return null;
-            }
-            StateManager.SetState("isFlipping", false);
-            InputManager.aWasPressed = false;
-            InputManager.dWasPressed = false;
-            StateManager.ResetStates();
-            //balanceAmount = 1;
-
-            yield break;
-        }
+        // private IEnumerator Flipping()
+        // {
+        //     StateManager.SetState("isFlipping", true);
+        //
+        //     while(!Mathf.Approximately(PlayerRb.velocity.x, 0.0f))
+        //     {
+        //         //targetVelocity = new Vector2( maxSpeed * -PlayerDirection, playerRb.velocity.y);
+        //         PlayerRb.velocity = Vector2.Lerp(PlayerRb.velocity, Vector2.zero, Time.deltaTime * decelerationRate*2f);
+        //         //balanceAmount += balanceRechargeRate * Time.deltaTime * 1.5f;
+        //         yield return null;
+        //     }
+        //     StateManager.SetState("isFlipping", false);
+        //     InputManager.aWasPressed = false;
+        //     InputManager.dWasPressed = false;
+        //     StateManager.ResetStates();
+        //     //balanceAmount = 1;
+        //
+        //     yield break;
+        // }
 
         private IEnumerator CheckPosition()
         {

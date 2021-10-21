@@ -219,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8835070284364335847}
   m_LocalRotation: {x: 0.008726558, y: -0, z: -0, w: 0.999962}
-  m_LocalPosition: {x: 1.0000002, y: 4.8451514, z: -18.985037}
+  m_LocalPosition: {x: 1, y: 4.8451514, z: -18.985037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8835070284265952983}
@@ -514,7 +514,7 @@ MonoBehaviour:
   inputAverageTime: 0
   accelerationRate: 0.521
   decelerationForce: 2
-  decelerationRate: 2.3
+  decelerationAnimTime: 1
   movementTimeOut: 1
   maxSpeedTimeOut: 3
   velocidadeSuperLenta: 0.5
@@ -544,8 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fdc38b4689f5a43bfef0fdf555add9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalPhysics: {fileID: 6200000, guid: fd78eb5513ebf8141961c994f9eff6dd, type: 2}
-  slopePhysics: {fileID: 6200000, guid: 3508ab4fbe8f5944d96c669dac87d9e4, type: 2}
+  playerRb: {fileID: 0}
 --- !u!114 &8504988797918720915
 MonoBehaviour:
   m_ObjectHideFlags: 0
