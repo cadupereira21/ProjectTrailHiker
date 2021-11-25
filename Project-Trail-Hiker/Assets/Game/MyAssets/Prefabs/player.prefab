@@ -499,6 +499,7 @@ MonoBehaviour:
   aTime: 0
   dTime: 0
   fall: 0
+  walk: 0
 --- !u!114 &8835070285861265396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,8 +530,8 @@ MonoBehaviour:
   crouchResizePercentage: 0.5
   crouchMovementSpeed: 5
   balanceAmount: 1
-  balanceRechargeRate: 0.575
-  unbalancePercentageRate: 0.414
+  balanceRechargeRate: 0.46
+  unbalancePercentageRate: 0.117
   unbalanceSpeedInfluence: 0.86
 --- !u!114 &1176570689
 MonoBehaviour:

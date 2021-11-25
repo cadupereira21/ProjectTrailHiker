@@ -11,6 +11,7 @@ namespace Game.Scripts.Player
         public float dTime = 0f;
 
         public bool fall = false;
+        public bool walk = false;
     
         public void Update()
         {
@@ -40,6 +41,12 @@ namespace Game.Scripts.Player
                     dWasPressed = false;
                     fall = true;
                 }
+            }
+
+            if (dWasPressed && aWasPressed)
+            {
+                walk = true;
+                Debug.Log("Andar");
             }
         }
 

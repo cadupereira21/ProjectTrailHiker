@@ -18,12 +18,18 @@ namespace Game.Scripts.UI
 
         private EquipItem equipItem;
 
-        private void Start()
+        private void Awake()
         {
             playerInventory = FindObjectOfType<PlayerInventory>();
             equipItem = GetComponent<EquipItem>();
             
             SetLabels();
+        }
+
+        private void OnEnable()
+        {
+            SetLabels();
+            Debug.Log("Fui ativado!");
         }
 
         public void SetLabels()

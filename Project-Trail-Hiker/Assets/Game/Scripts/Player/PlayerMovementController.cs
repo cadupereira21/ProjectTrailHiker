@@ -26,10 +26,11 @@ namespace Game.Scripts.Player
         private float maxSpeed = 10f;
         private float movementTimer = -1f;
         private float initialPlayerPositionY = 0.0f;
+        private float timeWithoutInput = 0.0f;
 
         private IEnumerator iCheckingPosition;
-        private IEnumerator iFall;
-        private IEnumerator iFlip;
+        // private IEnumerator iFall;
+        // private IEnumerator iFlip;
 
         //public bool isFalling { private set; get; }
         //public bool IsFlipping { private set; get; }
@@ -70,7 +71,7 @@ namespace Game.Scripts.Player
         [SerializeField] private float crouchResizePercentage = 0.5f;
         [Range(1f, 10f)]
         [SerializeField] private float crouchMovementSpeed;
-        
+
         [Header("Estabilidade do Jogador")]
         public float balanceAmount = 1.0f;
         [Range(0f, 1f)]
@@ -79,7 +80,7 @@ namespace Game.Scripts.Player
         [SerializeField]private float unbalancePercentageRate;
         [Range(0.5f, 1f)]
         [SerializeField]private float unbalanceSpeedInfluence;
-        
+
         public float SlopeSpeed => slopeSpeed;
         public float UnbalancePercentageRate => unbalancePercentageRate;
 
@@ -123,13 +124,15 @@ namespace Game.Scripts.Player
             {
                 balanceAmount = 1;
             }
+
+
             // Triggers the fall when balance reaches 0
             if (balanceAmount < 0)
             {
                 InputManager.fall = true;
                 balanceAmount = 0.1f;
             }
-            
+
             // Flip
             // if (InputManager.IsSwipeDirectionButtonDown())
             // {
@@ -176,10 +179,24 @@ namespace Game.Scripts.Player
 
             // Andar
             // Calculando a média entre os dois cliques
-            if (!StateManager.IsJumping && !StateManager.IsFalling && !StateManager.IsOnQte)
-                inputAverageTime = Mathf.Abs(InputManager.aTime - InputManager.dTime);
+            if (!StateManager.IsJumping && !StateManager.IsFalling && !StateManager.IsOnQte && InputManager.walk)
+            {
+                InputManager.walk = false;
+                timeWithoutInput = 0.0f;
+                inputAverageTime = Mathf.Abs(InputManager.aTime - InputManager.dTime);   
+            }
             else
+            {
                 inputAverageTime = 0;
+                timeWithoutInput += Time.deltaTime;
+                if (timeWithoutInput > 1.5f)
+                {
+                    timeWithoutInput = 0.0f;
+                    Debug.Log("Demorou para andar");
+                    InputManager.aWasPressed = false;
+                    InputManager.dWasPressed = false;
+                }
+            }
 
             // Normaliza o valor da media do input e seta a velocidade máxima para cada media
             NormalizeInputAverageTime();
@@ -249,29 +266,30 @@ namespace Game.Scripts.Player
             {
                 maxSpeed = 10f;
                 inputAverageTime = velocidadeAlta;
+                balanceAmount -= balanceRechargeRate/5;
             }
             else if (inputAverageTime > velocidadeSuperAlta) // Super Rápido
             {
                 maxSpeed = 15f;
                 inputAverageTime = velocidadeSuperAlta;
-                balanceAmount -= unbalanceSpeedInfluence * Time.deltaTime;
+                balanceAmount -= unbalancePercentageRate;
             }
             else if(inputAverageTime > 0f)
             {
-                StartCoroutine(iFall);
+                Fall();
             }
         }
 
-        private void FlipDirection()
-        {
-            PlayerRb.transform.localScale = new Vector3(-PlayerRb.transform.localScale.x, PlayerRb.transform.localScale.y, PlayerRb.transform.localScale.z);
-            PlayerDirection = PlayerDirection == 1 ? -1 : 1;
-            StartCoroutine(iFlip);
-            InputManager.aTime = 0f;
-            InputManager.dTime = 0f;
-            InputManager.aWasPressed = false;
-            InputManager.dWasPressed = false;
-        }
+        // private void FlipDirection()
+        // {
+        //     PlayerRb.transform.localScale = new Vector3(-PlayerRb.transform.localScale.x, PlayerRb.transform.localScale.y, PlayerRb.transform.localScale.z);
+        //     PlayerDirection = PlayerDirection == 1 ? -1 : 1;
+        //     StartCoroutine(iFlip);
+        //     InputManager.aTime = 0f;
+        //     InputManager.dTime = 0f;
+        //     InputManager.aWasPressed = false;
+        //     InputManager.dWasPressed = false;
+        // }
 
         // private void Jump()
         // {

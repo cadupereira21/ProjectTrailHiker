@@ -206,18 +206,17 @@ namespace Game.Scripts.Player
                      var buttonPressed = Input.inputString;
                      switch (buttonPressed)
                      {
+                        case "a":
+                        case "d":
+                           buttonPressed = "";
+                           break;
                         case "w":
-                           Debug.Log("Botão certo!");
                            isButtonPressed = true;
                            isButtonRight = true;
                            break;
-                        case "s":
-                           Debug.Log("Botão errado!");
+                        default:
                            isButtonPressed = true;
                            isButtonRight = false;
-                           break;
-                        default:
-                           buttonPressed = "";
                            break;
                      }
                   } break;
